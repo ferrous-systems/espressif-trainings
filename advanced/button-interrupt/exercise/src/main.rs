@@ -30,19 +30,21 @@ fn main() -> anyhow::Result<()> {
     //     ...
     // };
 
+    // Queue configurations
+    const QUEUE_TYPE_BASE: u8 = 0;
+    const ITEM_SIZE: u32 = 0;
+    const QUEUE_SIZE: u32 = 1;
+
     unsafe {
 
-        // 2. write the GPIO configuration into the register
+        // 2. write the GPIO configuration to the registers
         // esp!(...)?;
 
 
         // 3. Install the global GPIO interrupt handler
+        // or is it the generic GPIO interrupt handler ???
         // esp!(...)?;
 
-        // Queue configurations
-        const QUEUE_TYPE_BASE: u8 = 0;
-        const ITEM_SIZE: u32 = 0; 
-        const QUEUE_SIZE: u32 = 1;
 
         // 5. Create an event queue
         // EVENT_QUEUE = Some(...);

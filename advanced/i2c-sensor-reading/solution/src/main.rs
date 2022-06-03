@@ -32,7 +32,7 @@ fn main() -> anyhow::Result<()>  {
         <MasterConfig as Default>::default().baudrate(400.kHz().into()),
     )?;
 
-
+    // driver for the Sensirion SHTCx sensor
     let mut sht = shtcx::shtc3(i2c);
     let device_id = sht.device_identifier().unwrap();
  
