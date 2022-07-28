@@ -1,0 +1,288 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Basic Interrupt Handler - Embedded Rust on Espressif</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="01_intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="02_0_preparations.html"><strong aria-hidden="true">2.</strong> Preparations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="02_1_hardware.html"><strong aria-hidden="true">2.1.</strong> Hardware</a></li><li class="chapter-item expanded "><a href="02_2_software.html"><strong aria-hidden="true">2.2.</strong> Software</a></li><li class="chapter-item expanded "><a href="02_3_repository.html"><strong aria-hidden="true">2.3.</strong> Workshop repository</a></li><li class="chapter-item expanded "><a href="02_4_hello_board.html"><strong aria-hidden="true">2.4.</strong> Hello, board!</a></li></ol></li><li class="chapter-item expanded "><a href="03_0_intro_workshop.html"><strong aria-hidden="true">3.</strong> Intro Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_1_project_orga.html"><strong aria-hidden="true">3.1.</strong> Project organization</a></li><li class="chapter-item expanded "><a href="03_2_cargo_generate.html"><strong aria-hidden="true">3.2.</strong> Generating new projects</a></li><li class="chapter-item expanded "><a href="03_3_1_http_https_client.html"><strong aria-hidden="true">3.3.</strong> HTTP and HTTPS client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_3_2_http_client.html"><strong aria-hidden="true">3.3.1.</strong> Http Client</a></li><li class="chapter-item expanded "><a href="03_3_3_https_client.html"><strong aria-hidden="true">3.3.2.</strong> Https Client</a></li></ol></li><li class="chapter-item expanded "><a href="03_4_http_server.html"><strong aria-hidden="true">3.4.</strong> A simple HTTP server</a></li><li class="chapter-item expanded "><a href="03_5_0_mqtt.html"><strong aria-hidden="true">3.5.</strong> IoT using MQTT</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_5_1_mqtt.html"><strong aria-hidden="true">3.5.1.</strong> How MQTT works</a></li><li class="chapter-item expanded "><a href="03_5_2_mqtt.html"><strong aria-hidden="true">3.5.2.</strong> MQTT Exercise: Sending Messages</a></li><li class="chapter-item expanded "><a href="03_5_3_mqtt.html"><strong aria-hidden="true">3.5.3.</strong> MQTT Exercise: Receiving LED Commands</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="04_0_advanced_workshop.html"><strong aria-hidden="true">4.</strong> Advanced Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_2_low_level_io.html"><strong aria-hidden="true">4.1.</strong> Low level I/O</a></li><li class="chapter-item expanded "><a href="04_3_0_i2c.html"><strong aria-hidden="true">4.2.</strong> I2C</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_3_1_i2c.html"><strong aria-hidden="true">4.2.1.</strong> Reading Sensors</a></li><li class="chapter-item expanded "><a href="04_3_2_i2c.html"><strong aria-hidden="true">4.2.2.</strong> Writing a Driver</a></li><li class="chapter-item expanded "><a href="04_3_3_i2c.html"><strong aria-hidden="true">4.2.3.</strong> Driver Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_4_0_interrupts.html"><strong aria-hidden="true">4.3.</strong> Interrupts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_4_1_interrupts.html" class="active"><strong aria-hidden="true">4.3.1.</strong> Basic Interrupt Handler</a></li><li class="chapter-item expanded "><a href="04_4_2_interrupts.html"><strong aria-hidden="true">4.3.2.</strong> Random LED Color</a></li><li class="chapter-item expanded "><a href="04_4_3_interrupts.html"><strong aria-hidden="true">4.3.3.</strong> Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_7_reference.html"><strong aria-hidden="true">4.4.</strong> Reference</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Embedded Rust on Espressif</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="building-the-interrupt-handler"><a class="header" href="#building-the-interrupt-handler">Building the Interrupt Handler</a></h1>
+<p>The goal of this exercise is to handle the interrupt that fires if the <code>BOOT</code> button is pushed. 
+This exercise involves working with C bindings to the ESP-IDF and other unsafe operations, as well as non-typical rust documentation. In a first step we will go line by line to build this interrupt handler. </p>
+<p>You can find a skeleton code for this exercise in <code>advanced/button-interrupt/exercise/src/main.rs.</code>
+You can find the solution for this exercise in <code>advanced/button-interrupt/solution/src/main.rs</code></p>
+<h2 id="tasks"><a class="header" href="#tasks">Tasks</a></h2>
+<ol>
+<li>Configure the button (GPIO 9) with a c struct <a href="https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/struct.gpio_config_t.html"><code>gpio_config_t</code></a>the following settings:
+<ul>
+<li>input mode</li>
+<li>pull up</li>
+<li>interrupt on positive edge</li>
+</ul>
+</li>
+</ol>
+<p>The struct has the following fields:</p>
+<ul>
+<li>
+<p><code>pin_bit_mask</code>: represents the Pin number, the value 1  shifted by the number of the pin. </p>
+</li>
+<li>
+<p><code>mode</code>: sets the mode of the pin, it can have the following settings:</p>
+<ul>
+<li><code>gpio_mode_t_GPIO_MODE_INPUT</code> </li>
+<li><code>gpio_mode_t_GPIO_MODE_OUTPUT</code></li>
+<li><code>gpio_mode_t_GPIO_MODE_DISABLE</code> // disable gpio</li>
+<li><code>gpio_mode_t_GPIO_MODE_OUTPUT_OD</code> // open drain output</li>
+<li><code>gpio_mode_t_GPIO_MODE_INPUT_OUTPUT</code> // input and output</li>
+<li><code>gpio_mode_t_GPIO_MODE_INPUT_OUTPUT_OD</code> // open drain input and output</li>
+</ul>
+</li>
+<li>
+<p><code>pull_up_en</code>: true.into(), if the GPIO is pulled up,</p>
+</li>
+<li>
+<p><code>pull_down_en</code>: true.into(), if the GPIO is pulled down,</p>
+</li>
+<li>
+<p><code>intr_type</code>: sets the interrupt type, it can have the following settings:</p>
+<ul>
+<li><code>gpio_int_type_t_GPIO_INTR_ANYEDGE</code> // interrupt at any edge</li>
+<li><code>gpio_int_type_t_GPIO_INTR_DISABLE</code> // interrupt disabled</li>
+<li><code>gpio_int_type_t_GPIO_INTR_NEGEDGE</code> // interrupt at negative edge</li>
+<li><code>gpio_int_type_t_GPIO_INTR_POSEDGE</code> // interrupt at positive edge</li>
+</ul>
+</li>
+</ul>
+<p>They are constants with numbers representing the bit that must be set in the corresponding register. </p>
+<ol start="2">
+<li>
+<p>Write the configuration into the register with <a href="https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/fn.gpio_config.html"><code>unsafe extern &quot;C&quot; fn gpio_config</code></a>. This needs to happen in the unsafe block. To make these FFI calls we can use the macro <code>esp!($Cfunktion)</code>.</p>
+</li>
+<li>
+<p>Install a generic GPIO interrupt handler with <a href="https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/fn.gpio_install_isr_service.html"><code>unsafe extern &quot;C&quot; fn gpio_install_isr_service</code></a>. This function takes <code>ESP_INTR_FLAG_IRAM</code> as argument.</p>
+</li>
+<li>
+<p>Create a <code>static mut</code> that holds the queue handle we are going to get from <code>xQueueGenericCreate</code>. This is a number that uniquely identifies one particular queue, as opposed to any of the other queues in our program. The queue storage itself if managed by the Operating System.</p>
+</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>static mut EVENT_QUEUE: Option&lt;QueueHandle_t&gt; = None;
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="5">
+<li>Create the event queue using <a href="https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/fn.xQueueGenericCreate.html"><code>pub unsafe extern &quot;C&quot; fn xQueueGenericCreate</code></a>. This lets us safely pass events from an interrupt routine to our main thread.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>EVENT_QUEUE = Some(xQueueGenericCreate(QUEUE_SIZE, ITEM_SIZE, QUEUE_TYPE_BASE));
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="6">
+<li>Add a function which that will be called whenever there is a GPIO interrupt on our button pin. We put this function in a special block of RAM (<code>iram0</code>), so it will still be available even if the external flash is busy doing something else (like filesystem work). The function needs to get the queue handle from <code>EVENT_QUEUE</code> and call the <code>xQueueGiveFromISR</code> function with a <code>std::ptr::null_mut()</code> - the objects in our queue are of size zero, so we don't actually need a 'thing' to put on the queue. Instead, the act of pushing a 'nothing' is enough to wake up the other end!</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[link_section = &quot;.iram0.text&quot;]
+unsafe extern &quot;C&quot; fn button_interrupt(_: *mut c_void) {
+    xQueueGiveFromISR(EVENT_QUEUE.unwrap(), std::ptr::null_mut());
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>If the interrupt fires, an event is added to the queue. </p>
+<ol start="7">
+<li>Pass the function we just wrote to the generic GPIO interrupt handler we registered earlier, along with the number of the GPIO pin that should cause this function to be executed.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>esp!(gpio_isr_handler_add(
+    GPIO_NUM,
+    Some(button_interrupt),
+    std::ptr::null_mut()
+))?;
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="8">
+<li>Inside a loop, wait until the queue has an item in it. That is, until the <code>button_interrupt</code> function puts something in the queue.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let res = xQueueReceive(EVENT_QUEUE.unwrap(), ptr::null_mut(), QUEUE_WAIT_TICKS);
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="9">
+<li>Handle the value of <code>res</code>, so that &quot;Button pushed!&quot; is logged, if the button is pushed. </li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="04_4_0_interrupts.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="04_4_2_interrupts.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="04_4_0_interrupts.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="04_4_2_interrupts.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

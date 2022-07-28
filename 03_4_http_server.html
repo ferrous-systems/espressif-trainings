@@ -1,0 +1,231 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>A simple HTTP server - Embedded Rust on Espressif</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="01_intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="02_0_preparations.html"><strong aria-hidden="true">2.</strong> Preparations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="02_1_hardware.html"><strong aria-hidden="true">2.1.</strong> Hardware</a></li><li class="chapter-item expanded "><a href="02_2_software.html"><strong aria-hidden="true">2.2.</strong> Software</a></li><li class="chapter-item expanded "><a href="02_3_repository.html"><strong aria-hidden="true">2.3.</strong> Workshop repository</a></li><li class="chapter-item expanded "><a href="02_4_hello_board.html"><strong aria-hidden="true">2.4.</strong> Hello, board!</a></li></ol></li><li class="chapter-item expanded "><a href="03_0_intro_workshop.html"><strong aria-hidden="true">3.</strong> Intro Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_1_project_orga.html"><strong aria-hidden="true">3.1.</strong> Project organization</a></li><li class="chapter-item expanded "><a href="03_2_cargo_generate.html"><strong aria-hidden="true">3.2.</strong> Generating new projects</a></li><li class="chapter-item expanded "><a href="03_3_1_http_https_client.html"><strong aria-hidden="true">3.3.</strong> HTTP and HTTPS client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_3_2_http_client.html"><strong aria-hidden="true">3.3.1.</strong> Http Client</a></li><li class="chapter-item expanded "><a href="03_3_3_https_client.html"><strong aria-hidden="true">3.3.2.</strong> Https Client</a></li></ol></li><li class="chapter-item expanded "><a href="03_4_http_server.html" class="active"><strong aria-hidden="true">3.4.</strong> A simple HTTP server</a></li><li class="chapter-item expanded "><a href="03_5_0_mqtt.html"><strong aria-hidden="true">3.5.</strong> IoT using MQTT</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_5_1_mqtt.html"><strong aria-hidden="true">3.5.1.</strong> How MQTT works</a></li><li class="chapter-item expanded "><a href="03_5_2_mqtt.html"><strong aria-hidden="true">3.5.2.</strong> MQTT Exercise: Sending Messages</a></li><li class="chapter-item expanded "><a href="03_5_3_mqtt.html"><strong aria-hidden="true">3.5.3.</strong> MQTT Exercise: Receiving LED Commands</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="04_0_advanced_workshop.html"><strong aria-hidden="true">4.</strong> Advanced Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_2_low_level_io.html"><strong aria-hidden="true">4.1.</strong> Low level I/O</a></li><li class="chapter-item expanded "><a href="04_3_0_i2c.html"><strong aria-hidden="true">4.2.</strong> I2C</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_3_1_i2c.html"><strong aria-hidden="true">4.2.1.</strong> Reading Sensors</a></li><li class="chapter-item expanded "><a href="04_3_2_i2c.html"><strong aria-hidden="true">4.2.2.</strong> Writing a Driver</a></li><li class="chapter-item expanded "><a href="04_3_3_i2c.html"><strong aria-hidden="true">4.2.3.</strong> Driver Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_4_0_interrupts.html"><strong aria-hidden="true">4.3.</strong> Interrupts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_4_1_interrupts.html"><strong aria-hidden="true">4.3.1.</strong> Basic Interrupt Handler</a></li><li class="chapter-item expanded "><a href="04_4_2_interrupts.html"><strong aria-hidden="true">4.3.2.</strong> Random LED Color</a></li><li class="chapter-item expanded "><a href="04_4_3_interrupts.html"><strong aria-hidden="true">4.3.3.</strong> Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_7_reference.html"><strong aria-hidden="true">4.4.</strong> Reference</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Embedded Rust on Espressif</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="a-simple-http-server"><a class="header" href="#a-simple-http-server">A simple HTTP server</a></h1>
+<p>We're now turning our board into a tiny web server that upon receiving a <code>GET</code> request serves data from the internal temperature sensor. </p>
+<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
+<p>You can find a prepared project skeleton in <code>intro/http-server/exercise</code>. It includes establishing a WiFi connection, but you must configure it to use your network's credentials in <code>cfg.toml</code>.</p>
+<h2 id="serving-requests"><a class="header" href="#serving-requests">Serving requests</a></h2>
+<p>To connect to your board with your browser, you need to know the board's IP address. </p>
+<p>✅ Run the skeleton code. The output should yield the board's IP address like this:</p>
+<pre><code class="language-console">I (3862) esp_netif_handlers: sta ip: 192.168.178.54, mask: ...
+</code></pre>
+<p>The <code>sta ip</code> is the &quot;station&quot;, the WiFi term for an interface connected to an access point. This is the address you'll put in your browser (or other http client like <code>curl</code>).</p>
+<blockquote>
+<p>esp-idf tries to register the hostname <code>espressif</code> in your local network, so often <code>http://espressif/</code> instead of <code>http://&lt;sta ip&gt;/</code> will also work.</p>
+<p>You can change the hostname by setting <code>CONFIG_LWIP_LOCAL_HOSTNAME</code> in <code>sdkconfig.defaults</code>, e.g.: <code>CONFIG_LWIP_LOCAL_HOSTNAME=&quot;esp32c3&quot;</code></p>
+</blockquote>
+<p>Sending HTTP data to a client involves:</p>
+<ul>
+<li>creating an an instance of <code>EspHttpServer</code></li>
+<li>looping in the main function so it doesn't terminate - termination would result in the server going out of scope and subsequently shutting down</li>
+<li>setting a separate request <code>handler</code> function for each requested path you want to serve content. Any unconfigured path will result in a <code>404</code> error. These handler functions are realized inline as Rust closures via:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>server.set_inline_handler(path, method, |request, response| {
+    // the `response` needs to write data to the client
+    let mut writer = response.into_writer(request);
+
+    // construct a response
+    let some_buf = ...;
+
+    // now you can write your desired data
+    writer.do_write_all(&amp;some_buf);
+
+    // once you're done the handler expects a `Completion` as result,
+    // this is achieved via:
+    writer.complete()
+});
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>✅ Create a <code>EspHttpServer</code> instance using a default <code>esp_idf_svc::http::server::Configuration</code>. The default configuration will cause it to listen on port 80 automatically. </p>
+<p>✅ Verify that a connection to <code>http://&lt;sta ip&gt;/</code> yields a <code>404</code> (not found) error stating <code>This URI does not exist</code>.</p>
+<p>✅ Write a request handler for <code>GET</code> requests to the root path (<code>&quot;/&quot;</code>). The request handler sends a greeting message at <code>http://&lt;sta ip&gt;/</code>, using the provided <code>index_html()</code> function to generate the HTML String.</p>
+<h2 id="dynamic-data"><a class="header" href="#dynamic-data">Dynamic data</a></h2>
+<p>We can also report dynamic information to a client. The skeleton includes a configured <code>temp_sensor</code> that measures the board's internal temperature. </p>
+<p>✅ Write a second handler that reports the chip temperature at <code>http://&lt;sta ip&gt;/temperature</code>, using the provided <code>temperature(val: f32)</code> function to generate the HTML String.</p>
+<h2 id="hints"><a class="header" href="#hints">Hints</a></h2>
+<ul>
+<li>If you want to send a response string, it needs to be converted into a <code>&amp;[u8]</code> slice via <code>a_string.as_bytes()</code></li>
+<li>The temperature sensor needs exclusive (mutable) access. Passing it as owned value into the handler will not work (since it would get dropped after the first invocation) - you can fix this by making the handler a <code>move ||</code> closure, wrapping the sensor in an <code>Arc&lt;Mutex&lt;_&gt;&gt;</code>, keeping one <code>clone()</code> of this <code>Arc</code> in your main function and moving the other into the closure.</li>
+</ul>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<ul>
+<li><code>httpd_txrx: httpd_resp_send_err</code> can be solved by restarting, or <code>cargo clean</code> if nothing happens.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="03_3_3_https_client.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="03_5_0_mqtt.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="03_3_3_https_client.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="03_5_0_mqtt.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

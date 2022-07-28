@@ -1,0 +1,324 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>MQTT Exercise: Receiving LED Commands - Embedded Rust on Espressif</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="01_intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="02_0_preparations.html"><strong aria-hidden="true">2.</strong> Preparations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="02_1_hardware.html"><strong aria-hidden="true">2.1.</strong> Hardware</a></li><li class="chapter-item expanded "><a href="02_2_software.html"><strong aria-hidden="true">2.2.</strong> Software</a></li><li class="chapter-item expanded "><a href="02_3_repository.html"><strong aria-hidden="true">2.3.</strong> Workshop repository</a></li><li class="chapter-item expanded "><a href="02_4_hello_board.html"><strong aria-hidden="true">2.4.</strong> Hello, board!</a></li></ol></li><li class="chapter-item expanded "><a href="03_0_intro_workshop.html"><strong aria-hidden="true">3.</strong> Intro Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_1_project_orga.html"><strong aria-hidden="true">3.1.</strong> Project organization</a></li><li class="chapter-item expanded "><a href="03_2_cargo_generate.html"><strong aria-hidden="true">3.2.</strong> Generating new projects</a></li><li class="chapter-item expanded "><a href="03_3_1_http_https_client.html"><strong aria-hidden="true">3.3.</strong> HTTP and HTTPS client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_3_2_http_client.html"><strong aria-hidden="true">3.3.1.</strong> Http Client</a></li><li class="chapter-item expanded "><a href="03_3_3_https_client.html"><strong aria-hidden="true">3.3.2.</strong> Https Client</a></li></ol></li><li class="chapter-item expanded "><a href="03_4_http_server.html"><strong aria-hidden="true">3.4.</strong> A simple HTTP server</a></li><li class="chapter-item expanded "><a href="03_5_0_mqtt.html"><strong aria-hidden="true">3.5.</strong> IoT using MQTT</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_5_1_mqtt.html"><strong aria-hidden="true">3.5.1.</strong> How MQTT works</a></li><li class="chapter-item expanded "><a href="03_5_2_mqtt.html"><strong aria-hidden="true">3.5.2.</strong> MQTT Exercise: Sending Messages</a></li><li class="chapter-item expanded "><a href="03_5_3_mqtt.html" class="active"><strong aria-hidden="true">3.5.3.</strong> MQTT Exercise: Receiving LED Commands</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="04_0_advanced_workshop.html"><strong aria-hidden="true">4.</strong> Advanced Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_2_low_level_io.html"><strong aria-hidden="true">4.1.</strong> Low level I/O</a></li><li class="chapter-item expanded "><a href="04_3_0_i2c.html"><strong aria-hidden="true">4.2.</strong> I2C</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_3_1_i2c.html"><strong aria-hidden="true">4.2.1.</strong> Reading Sensors</a></li><li class="chapter-item expanded "><a href="04_3_2_i2c.html"><strong aria-hidden="true">4.2.2.</strong> Writing a Driver</a></li><li class="chapter-item expanded "><a href="04_3_3_i2c.html"><strong aria-hidden="true">4.2.3.</strong> Driver Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_4_0_interrupts.html"><strong aria-hidden="true">4.3.</strong> Interrupts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_4_1_interrupts.html"><strong aria-hidden="true">4.3.1.</strong> Basic Interrupt Handler</a></li><li class="chapter-item expanded "><a href="04_4_2_interrupts.html"><strong aria-hidden="true">4.3.2.</strong> Random LED Color</a></li><li class="chapter-item expanded "><a href="04_4_3_interrupts.html"><strong aria-hidden="true">4.3.3.</strong> Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_7_reference.html"><strong aria-hidden="true">4.4.</strong> Reference</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Embedded Rust on Espressif</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="mqtt-exercise-receiving-led-commands"><a class="header" href="#mqtt-exercise-receiving-led-commands">MQTT Exercise: Receiving LED Commands</a></h1>
+<p>✅ Subscribe to <code>color_topic(uuid)</code></p>
+<p>✅ Run <code>host_client</code> in parallel in it's own terminal. The <code>host_client</code> publishes board LED <code>color</code> roughly every second.</p>
+<p>✅ Verify your subscription is working by logging the information received through the topic. </p>
+<p>✅ React to the LED commands by setting the newly received color to the board with <code>led.set_pixel(/* received color here */)</code>.</p>
+<h3 id="encoding-and-decoding-message-payloads"><a class="header" href="#encoding-and-decoding-message-payloads">Encoding and decoding message payloads</a></h3>
+<p>The board LED commands are made of three bytes indicating red, green and blue.
+- <code>enum ColorData</code> contains a topic <code>color_topic(uuid)</code> and the <code>BoardLed</code>
+- it can convert the <code>data()</code> field of an <code>EspMqttMessage</code> by using <code>try_from()</code>. The message needs first to be coerced into a slice, using <code>let message_data: &amp;[u8] = &amp;message.data();</code></p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// RGB LED command
+
+if let Ok(ColorData::BoardLed(color)) = ColorData::try_from(message_data) { /* set new color here */ }
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="publish--subscribe"><a class="header" href="#publish--subscribe">Publish &amp; Subscribe</a></h2>
+<p><code>EspMqttClient</code> is not only responsible for publishing but also for subscribing to topics.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let subscribe_topic = /* ... */;
+client.subscribe(subscribe_topic, QoS::AtLeastOnce)
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="handling-incoming-messages"><a class="header" href="#handling-incoming-messages">Handling incoming messages</a></h2>
+<p>The <code>message_event</code> parameter in the handler closure is of type <code>Option&lt;Result&lt;Event&lt;EspMqttMessage&gt;&gt;&gt;</code>.
+Since we're only interested in processing successfully received messages, we can make use of deep pattern matching into the closure:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut client =
+        EspMqttClient::new_with_callback(broker_url, &amp;mqtt_config, move |message_event| {
+            if let Some(Ok(Received(message))) = message_event {
+                /* process_message() function here */
+            }
+        })?;
+<span class="boring">}
+</span></code></pre></pre>
+<p>In the processing function, you will handle <code>Complete</code> messages. Use Rust Analyzer to generate the missing match arms or match any other type of response by logging an <code>info!()</code>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    match message.details() {
+        // all messages in this exercise will be of type `Complete`
+        // the other variants of the `Details` enum are for larger message payloads
+        Complete(token) =&gt; {
+            
+            // Cow&lt;&amp;[u8]&gt; can be coerced into a slice &amp;[u8] or a Vec&lt;u8&gt;
+            // You can coerce it into a slice to be sent to try_from()
+            let message_data: &amp;[u8] = &amp;message.data();
+            if let Ok(ColorData::BoardLed(color)) = ColorData::try_from(message_data) {
+                // set the LED to the newly received color
+
+            }
+        }
+        // Use Rust Analyzer to generate the missing match arms or match an incomplete message with a log message.
+        
+    }
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="hints"><a class="header" href="#hints">Hints</a></h2>
+<ul>
+<li>Use a logger to see what you are receiving, for example: <code>info!(&quot;{}&quot;, color);</code> or <code>dbg!(color)</code>.</li>
+</ul>
+<h2 id="extra-tasks"><a class="header" href="#extra-tasks">Extra tasks</a></h2>
+<h3 id="implement-mqtt-with-hierarchical-topics"><a class="header" href="#implement-mqtt-with-hierarchical-topics">Implement MQTT with hierarchical topics</a></h3>
+<ul>
+<li>
+<p>Implement the same procedure but by using MQTT hierarchy. Subscribe subscribing to all &quot;command&quot; messages, combining <code>cmd_topic_fragment(uuid)</code> with a trailing <code>#</code> wildcard.</p>
+</li>
+<li>
+<p>in the host client, you will need to change to replace <code>color</code> with <code>command</code>. For example, unquote this line <code>//let command = Command::BoardLed(color);</code> and quote the corresponding <code>let color = ColorData::BoardLed(color);</code>
+`</p>
+</li>
+<li>
+<p>Use <code>enum Command</code> instead of <code>enum ColorData</code>. <code>enum Command</code> represents all possible commands (here: just <code>BoardLed</code>).</p>
+</li>
+<li>
+<p><code>RawCommandData</code> stores the last part of a message topic (e.g. <code>board_led</code> in <code>a-uuid/command/board_led</code>). It can be converted into a <code>Command</code> using <code>try_from</code>.</p>
+</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// RGB LED command
+let raw = RawCommandData {
+    path: command,
+    data: message.data(),
+};
+
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>in the <code>process_message()</code> function you will need to parse the topic.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>match message.details() {
+    Details::Complete(token) =&gt; {
+        // all messages in this exercise will be of type `Complete`
+        // the other variants of the `Details` enum
+        // are for larger message payloads
+
+        // Cow&lt;str&gt; behaves a lot like other Rust strings (&amp;str, String)
+        let topic: Cow&lt;str&gt; = message.topic(token); 
+
+        // determine if we're interested in this topic and
+        // dispatch based on its content
+        let is_command_topic: bool = /* ... */;
+        if is_command_topic {
+            let raw = RawCommandData { /* ... */ };
+            if let Ok(Command::BoardLed(color)) = Command::try_from(raw) {
+                // set the LED to the newly received color
+            }
+        
+        },
+        _ =&gt; {}
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h4 id="hints-1"><a class="header" href="#hints-1">Hints!</a></h4>
+<ul>
+<li>Since you will be iterating over a MQTT topic, you will need to <code>split()</code> on a string returns an iterator. You can access a specific item from an iterator using <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.nth"><code>nth()</code></a>.</li>
+<li>The solution implementing hierarchy can be run with <code>cargo espflash --release --example solution2 --monitor /dev/tty.usbmodem0</code>, while the solution without can be run with <code>cargo espflash --release --monitor /dev/tty.usbmodem0</code> or <code>cargo espflash --release --example solution1 --monitor /dev/tty.usbmodem0</code></li>
+</ul>
+<h3 id="other-tasks"><a class="header" href="#other-tasks">Other tasks</a></h3>
+<ul>
+<li>leverage <a href="https://docs.serde.rs/serde_json/"><code>serde_json</code></a> to encode/decode your message data as JSON.</li>
+<li>Send some messages with a large payload from the host client and process them on the microcontroller. Large messages will be delivered in parts instead of <code>Details::Complete</code>:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>InitialChunk(chunk_info) =&gt; { /* first chunk */},
+SubsequentChunk(chunk_data) =&gt; { /* all subsequent chunks */ }
+<span class="boring">}
+</span></code></pre></pre>
+<p>You do not need to differentiate incoming chunks based on message ID, since at most one message will be in flight at any given time. </p>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<ul>
+<li><code>error: expected expression, found .</code> When building host client: update your stable Rust installation to 1.58 or newer</li>
+<li>MQTT messages not showing up? make sure all clients (board and workstation) use the same UUID (you can see it in the log output)</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="03_5_2_mqtt.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="04_0_advanced_workshop.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="03_5_2_mqtt.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="04_0_advanced_workshop.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

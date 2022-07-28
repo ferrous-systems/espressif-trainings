@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Software - Embedded Rust on Espressif</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="01_intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="02_0_preparations.html"><strong aria-hidden="true">2.</strong> Preparations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="02_1_hardware.html"><strong aria-hidden="true">2.1.</strong> Hardware</a></li><li class="chapter-item expanded "><a href="02_2_software.html" class="active"><strong aria-hidden="true">2.2.</strong> Software</a></li><li class="chapter-item expanded "><a href="02_3_repository.html"><strong aria-hidden="true">2.3.</strong> Workshop repository</a></li><li class="chapter-item expanded "><a href="02_4_hello_board.html"><strong aria-hidden="true">2.4.</strong> Hello, board!</a></li></ol></li><li class="chapter-item expanded "><a href="03_0_intro_workshop.html"><strong aria-hidden="true">3.</strong> Intro Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_1_project_orga.html"><strong aria-hidden="true">3.1.</strong> Project organization</a></li><li class="chapter-item expanded "><a href="03_2_cargo_generate.html"><strong aria-hidden="true">3.2.</strong> Generating new projects</a></li><li class="chapter-item expanded "><a href="03_3_1_http_https_client.html"><strong aria-hidden="true">3.3.</strong> HTTP and HTTPS client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_3_2_http_client.html"><strong aria-hidden="true">3.3.1.</strong> Http Client</a></li><li class="chapter-item expanded "><a href="03_3_3_https_client.html"><strong aria-hidden="true">3.3.2.</strong> Https Client</a></li></ol></li><li class="chapter-item expanded "><a href="03_4_http_server.html"><strong aria-hidden="true">3.4.</strong> A simple HTTP server</a></li><li class="chapter-item expanded "><a href="03_5_0_mqtt.html"><strong aria-hidden="true">3.5.</strong> IoT using MQTT</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_5_1_mqtt.html"><strong aria-hidden="true">3.5.1.</strong> How MQTT works</a></li><li class="chapter-item expanded "><a href="03_5_2_mqtt.html"><strong aria-hidden="true">3.5.2.</strong> MQTT Exercise: Sending Messages</a></li><li class="chapter-item expanded "><a href="03_5_3_mqtt.html"><strong aria-hidden="true">3.5.3.</strong> MQTT Exercise: Receiving LED Commands</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="04_0_advanced_workshop.html"><strong aria-hidden="true">4.</strong> Advanced Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_2_low_level_io.html"><strong aria-hidden="true">4.1.</strong> Low level I/O</a></li><li class="chapter-item expanded "><a href="04_3_0_i2c.html"><strong aria-hidden="true">4.2.</strong> I2C</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_3_1_i2c.html"><strong aria-hidden="true">4.2.1.</strong> Reading Sensors</a></li><li class="chapter-item expanded "><a href="04_3_2_i2c.html"><strong aria-hidden="true">4.2.2.</strong> Writing a Driver</a></li><li class="chapter-item expanded "><a href="04_3_3_i2c.html"><strong aria-hidden="true">4.2.3.</strong> Driver Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_4_0_interrupts.html"><strong aria-hidden="true">4.3.</strong> Interrupts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_4_1_interrupts.html"><strong aria-hidden="true">4.3.1.</strong> Basic Interrupt Handler</a></li><li class="chapter-item expanded "><a href="04_4_2_interrupts.html"><strong aria-hidden="true">4.3.2.</strong> Random LED Color</a></li><li class="chapter-item expanded "><a href="04_4_3_interrupts.html"><strong aria-hidden="true">4.3.3.</strong> Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_7_reference.html"><strong aria-hidden="true">4.4.</strong> Reference</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Embedded Rust on Espressif</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="software"><a class="header" href="#software">Software</a></h1>
+<p>Follow the steps below for a default installation of the ESP32-C3 platform tooling. </p>
+<p>🔎 Should you desire a customized installation (e.g. building parts from source, or add support for Xtensa/ESP32-S3), instructions for doing so can be found in the <a href="https://esp-rs.github.io/book/dependencies/installing-rust.html">Installing Rust</a> chapter of the <em>Rust on ESP</em> Book. </p>
+<h2 id="rust-toolchain"><a class="header" href="#rust-toolchain">Rust toolchain</a></h2>
+<p>✅ If you haven't got Rust on your computer, obtain it via <a href="https://rustup.rs/">https://rustup.rs/</a></p>
+<p>Furthermore, for ESP32-C3, a specific <em>nightly</em> version of the Rust toolchain is currently required.</p>
+<p>✅ Install nightly Rust and add support for the target architecture using the following console commands:</p>
+<pre><code class="language-console">$ rustup install nightly-2022-03-10
+$ rustup component add rust-src --toolchain nightly-2022-03-10
+</code></pre>
+<p>🔎 Rust is capable of cross-compiling to any supported target (see <code>rustup target list</code>). By default, only the native architecture of your system is installed.
+To build for the Xtensa architecture (<em>not</em> part of this material), a fork of the Rust compiler is required as of January 2022.</p>
+<h2 id="espressif-toolchain"><a class="header" href="#espressif-toolchain">Espressif toolchain</a></h2>
+<p>Several tools are required:</p>
+<ul>
+<li><code>cargo-espflash</code> - upload firmware to the microcontroller</li>
+<li><code>ldproxy</code> - Espressif build toolchain dependency</li>
+</ul>
+<p>✅ Install them with the following command:</p>
+<pre><code class="language-console">$ cargo install cargo-espflash ldproxy
+</code></pre>
+<h2 id="toolchain-dependencies"><a class="header" href="#toolchain-dependencies">Toolchain dependencies</a></h2>
+<h3 id="debianubuntu"><a class="header" href="#debianubuntu">Debian/Ubuntu</a></h3>
+<pre><code class="language-console">$ sudo apt install llvm-dev libclang-dev clang
+</code></pre>
+<h3 id="macos"><a class="header" href="#macos">macOS</a></h3>
+<p>(when using the Homebrew package manager, which we recommend)</p>
+<pre><code class="language-console">$ brew install llvm
+</code></pre>
+<h3 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h3>
+<ul>
+<li>
+<p>Python 3 is a required dependency. It comes preinstalled on stock macOS and typically on desktop Linux distributions. An existing <strong>Python 2</strong> installation with the <code>virtualenv</code> add-on pointing to it is known to potentially cause build problems. </p>
+</li>
+<li>
+<p>Error <code>failed to run custom build command for libudev-sys v0.1.4</code> or <code>esp-idf-sys v0.30.X</code>:</p>
+<p>At time of writing, this can be solved by </p>
+<ol>
+<li>running <a href="https://github.com/esp-rs/rust-build/blob/f773036483333f3b4618d988f9a1eda051573cb2/support/esp-rs-rust/Containerfile#L13">this line</a> from the <code>esp-rs</code> container:</li>
+</ol>
+<p><code>apt-get update \ &amp;&amp; apt-get install -y vim nano git curl gcc ninja-build cmake libudev-dev python3 python3-pip libusb-1.0-0 libssl-dev \ pkg-config libtinfo5</code></p>
+<ol start="2">
+<li>
+<p>restarting the terminal</p>
+</li>
+<li>
+<p>If this is not working, try <code>cargo clean</code>, remove the <code>~/.espressif</code> folder and reinstall <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos-setup.html">according to esp instructions</a>.</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
+<blockquote>
+<p>❗️ Please <strong>note</strong> the Docker container provides an alternative option to <strong>compile</strong> the Rust exercises in.
+It is meant for users that have experience with virtualized environments.
+Be aware that we cannot provide help for Docker specific issues during the training.</p>
+</blockquote>
+<p>An alternative environment to <strong>compile</strong> the Rust exercises in is to use Docker. In this repository there is a <code>Dockerfile</code>
+with instructions to install the Rust toolchain &amp; all required packages. This virtualized environment is designed
+to only compile the binaries for the espressif target. Other commands, e.g. using <code>cargo-espflash</code>, still need to
+be executed on the host system.</p>
+<p>✅ Install <a href="https://docs.docker.com/get-docker/"><code>Docker</code></a> for your operating system.</p>
+<p>To build the Docker image run the following command from the root folder:</p>
+<pre><code class="language-console">$ docker image build --tag esp --file .devcontainer/Dockerfile .
+</code></pre>
+<p>Building the image takes a while depending on the OS &amp; hardware (20-30 minutes).</p>
+<p>To start the new Docker container run:</p>
+<pre><code class="language-console">$ docker run --mount type=bind,source=&quot;$(pwd)&quot;,target=/workspace,consistency=cached -it esp /bin/bash
+</code></pre>
+<p>This starts an interactive shell in the Docker container. It also mounts the local repository to a folder
+named <code>/workspace</code> inside the container. Changes to the project on the host system are reflected inside the container &amp; vice versa.</p>
+<p>Using this Docker setup requires certain commands to run inside the container, while other have to be executed on the host system.
+It's recommended to keep two terminals open, one connected to the Docker container, one on the host system.</p>
+<ul>
+<li>in the container: compile the project</li>
+<li>on the host: use the <code>cargo-espflash</code> sub-command to flash the program onto the embedded hardware</li>
+</ul>
+<h2 id="additional-software"><a class="header" href="#additional-software">Additional Software</a></h2>
+<h3 id="vs-code"><a class="header" href="#vs-code">VS Code</a></h3>
+<p>One editor with good Rust support is <a href="https://code.visualstudio.com/">VS Code</a> which is available for most platforms.
+When using VS Code we recommend the following extensions to help during the development.</p>
+<ul>
+<li><code>Even Better TOML</code> for editing TOML based configuration files</li>
+<li><a href="https://rust-analyzer.github.io/"><code>Rust Analyzer</code></a> to provide code completion &amp; navigation</li>
+</ul>
+<p>There are a few more useful extensions for advanced usage</p>
+<ul>
+<li><a href="https://github.com/vadimcn/vscode-lldb"><code>lldb</code></a> a native debugger extension based on LLDB</li>
+<li><a href="https://github.com/serayuzgur/crates"><code>crates</code></a> to help manage Rust dependencies</li>
+</ul>
+<h3 id="vs-code--devcontainer"><a class="header" href="#vs-code--devcontainer">VS Code &amp; Devcontainer</a></h3>
+<p>One extension for VS Code that might be helpful to develop inside a Docker container is <a href="https://github.com/Microsoft/vscode-remote-release"><code>Remote Containers</code></a>.
+It uses the same <code>Dockerfile</code> as the Docker setup, but builds the image and connects to it from within VS Code.
+Once the extension is installed VS Code recognizes the configuration in the <code>.devcontainer</code> folder. Use the <code>Remote Containers - Reopen in Container</code> command to connect VS Code to the container.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="02_1_hardware.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="02_3_repository.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="02_1_hardware.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="02_3_repository.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

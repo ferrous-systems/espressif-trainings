@@ -1,0 +1,1341 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Embedded Rust on Espressif</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="01_intro.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="02_0_preparations.html"><strong aria-hidden="true">2.</strong> Preparations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="02_1_hardware.html"><strong aria-hidden="true">2.1.</strong> Hardware</a></li><li class="chapter-item expanded "><a href="02_2_software.html"><strong aria-hidden="true">2.2.</strong> Software</a></li><li class="chapter-item expanded "><a href="02_3_repository.html"><strong aria-hidden="true">2.3.</strong> Workshop repository</a></li><li class="chapter-item expanded "><a href="02_4_hello_board.html"><strong aria-hidden="true">2.4.</strong> Hello, board!</a></li></ol></li><li class="chapter-item expanded "><a href="03_0_intro_workshop.html"><strong aria-hidden="true">3.</strong> Intro Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_1_project_orga.html"><strong aria-hidden="true">3.1.</strong> Project organization</a></li><li class="chapter-item expanded "><a href="03_2_cargo_generate.html"><strong aria-hidden="true">3.2.</strong> Generating new projects</a></li><li class="chapter-item expanded "><a href="03_3_1_http_https_client.html"><strong aria-hidden="true">3.3.</strong> HTTP and HTTPS client</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_3_2_http_client.html"><strong aria-hidden="true">3.3.1.</strong> Http Client</a></li><li class="chapter-item expanded "><a href="03_3_3_https_client.html"><strong aria-hidden="true">3.3.2.</strong> Https Client</a></li></ol></li><li class="chapter-item expanded "><a href="03_4_http_server.html"><strong aria-hidden="true">3.4.</strong> A simple HTTP server</a></li><li class="chapter-item expanded "><a href="03_5_0_mqtt.html"><strong aria-hidden="true">3.5.</strong> IoT using MQTT</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="03_5_1_mqtt.html"><strong aria-hidden="true">3.5.1.</strong> How MQTT works</a></li><li class="chapter-item expanded "><a href="03_5_2_mqtt.html"><strong aria-hidden="true">3.5.2.</strong> MQTT Exercise: Sending Messages</a></li><li class="chapter-item expanded "><a href="03_5_3_mqtt.html"><strong aria-hidden="true">3.5.3.</strong> MQTT Exercise: Receiving LED Commands</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="04_0_advanced_workshop.html"><strong aria-hidden="true">4.</strong> Advanced Workshop</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_2_low_level_io.html"><strong aria-hidden="true">4.1.</strong> Low level I/O</a></li><li class="chapter-item expanded "><a href="04_3_0_i2c.html"><strong aria-hidden="true">4.2.</strong> I2C</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_3_1_i2c.html"><strong aria-hidden="true">4.2.1.</strong> Reading Sensors</a></li><li class="chapter-item expanded "><a href="04_3_2_i2c.html"><strong aria-hidden="true">4.2.2.</strong> Writing a Driver</a></li><li class="chapter-item expanded "><a href="04_3_3_i2c.html"><strong aria-hidden="true">4.2.3.</strong> Driver Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_4_0_interrupts.html"><strong aria-hidden="true">4.3.</strong> Interrupts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="04_4_1_interrupts.html"><strong aria-hidden="true">4.3.1.</strong> Basic Interrupt Handler</a></li><li class="chapter-item expanded "><a href="04_4_2_interrupts.html"><strong aria-hidden="true">4.3.2.</strong> Random LED Color</a></li><li class="chapter-item expanded "><a href="04_4_3_interrupts.html"><strong aria-hidden="true">4.3.3.</strong> Solution</a></li></ol></li><li class="chapter-item expanded "><a href="04_7_reference.html"><strong aria-hidden="true">4.4.</strong> Reference</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Embedded Rust on Espressif</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>This is Ferrous Systems' <em>Embedded Rust on Espressif</em> training material. It is divided into two workshops: introductory and advanced. The introductory trail will introduce you to basics of embedded development and how to make the embedded board interact with the outside world - reacting to commands and sending sensor data.</p>
+<p>The advanced course takes it from there to dive deeper into topics like interrupt handling, low-level peripheral access and writing your own drivers.</p>
+<p>An <a href="https://github.com/esp-rs/esp-rust-board">Espressif Rust Board</a> or <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/hw-reference/esp32c3/user-guide-devkitc-02.html">ESP32-C3-DevKitC-02</a> (intro part only!) is mandatory for working with this book - emulators like QEMU are not supported. 
+If you subscribed to one of the trainings, a board will be provided to you directly by Espressif.
+Some exercises also require wireless internet access.</p>
+<p>Our focus lies primarily on the <a href="https://www.espressif.com/en/products/socs/esp32-c3">ESP32-C3</a> platform, a <a href="https://riscv.org/">RISC-V</a> based microcontroller with strong IoT capabilities, facilitated by integrated Wi-Fi and Bluetooth 5 (LE) functionality as well as large RAM + flash size for sophisticated applications. A substantial amount of this course is also applicable for Xtensa the other architecture Espressif uses, in particular the <a href="https://www.espressif.com/en/products/socs/esp32-s3">ESP32-S3</a>. For low-level access the general principles apply as well, but actual hardware access will differ in various ways - refer to the technical reference manuals (<a href="https://www.espressif.com/sites/default/files/documentation/esp32-c3_technical_reference_manual_en.pdf">C3</a>, <a href="https://www.espressif.com/sites/default/files/documentation/esp32-s3_technical_reference_manual_en.pdf">S3</a>) or <a href="https://www.espressif.com/en/support/documents/technical-documents">other available technical documents</a>  as needed.</p>
+<h2 id="rust-knowledge"><a class="header" href="#rust-knowledge">Rust knowledge</a></h2>
+<p>Basic Rust like <a href="https://doc.rust-lang.org/book/">The Rust Book</a> Chapters 1 - 6, Chapter 4 Ownership does not need to be fully understood.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="preparations"><a class="header" href="#preparations">Preparations</a></h1>
+<p>This chapter contains informations about the course material, the required hardware and an installation guide.</p>
+<h2 id="icons-and-formatting-we-use"><a class="header" href="#icons-and-formatting-we-use">Icons and Formatting we use</a></h2>
+<p>We use Icons to mark different kinds of information in the book:</p>
+<ul>
+<li>✅ Call for action</li>
+<li>❗️ Warnings, Details that require special attention</li>
+<li>🔎 Knowledge that dives deeper into a subject, but which you are not required to understand to proceed.</li>
+<li>💬 Descriptions for Accessibility</li>
+</ul>
+<blockquote>
+<p>Example note: Notes like this one contain helpful information</p>
+</blockquote>
+<h2 id="required-hardware"><a class="header" href="#required-hardware">Required Hardware</a></h2>
+<ul>
+<li>Rust ESP Board (Not yet available for purchase)</li>
+<li>USB-C cable suitable to connect the board to your development computer</li>
+<li>Wi-Fi access point connected to the Internet</li>
+</ul>
+<p>No additional debugger/probe hardware is required.</p>
+<h2 id="ensuring-a-working-setup"><a class="header" href="#ensuring-a-working-setup">Ensuring a working setup</a></h2>
+<p>❗️ As of March 2022 we are not providing complete setup instructions for MS Windows.</p>
+<p>❗️ If you are participating in a training led by Ferrous Systems, we urge you to do prepare for the workshop by following the instructions in this chapter least one business day in advance to verify you're ready to go by the time it starts. Please <a href="training@ferrous-systems.com">contact us</a> should you encounter any issues or require any kind of support.</p>
+<p>❗️ If you are using a <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/hw-reference/esp32c3/user-guide-devkitc-02.html">ESP32-C3-DevKitC-02</a> a few pins and slave adresses are different, since the board is similar but not the same. This is relevant for the solutions in <a href="/advanced/i2c-sensor-reading/solution/src/">advanced/i2c-sensor-reading/</a> and <a href="/advanced/i2c-driver/solution/src/">advanced/i2c-driver/</a>, where the pins and slave addresses for the ESP32-C3-DevKitC-02 are commented out.</p>
+<h2 id="companion-material"><a class="header" href="#companion-material">Companion material</a></h2>
+<ul>
+<li><a href="https://esp-rs.github.io/book/introduction.html">Official esp-rs book</a> </li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="checking-the-hardware"><a class="header" href="#checking-the-hardware">Checking the hardware</a></h1>
+<p>Connect the Espressif Rust Board to your computer. Verify a tiny red control LED lights up.</p>
+<p>The device should also expose its UART serial port over USB:</p>
+<p><strong>Windows</strong>: a USB Serial Device (COM port) in the Device Manager under the Ports section</p>
+<p><strong>Linux</strong>: a USB device under <code>lsusb</code>. The device will have a VID (vendor ID) of <code>0x10c4</code> and a PID (product ID) of <code>0xea60</code> -- the <code>0x</code> prefix will be omitted in the output of <code>lsusb</code>:</p>
+<pre><code class="language-console">$ lsusb | grep UART
+Bus 001 Device 011: ID 10c4:ea60 Silicon Laboratories, Inc. CP2102N USB to UART Bridge Controller  Serial: a4c4193ceaa0eb119085d1acdf749906
+</code></pre>
+<p>The device will also show up in the <code>/dev</code> directory as a <code>tty.usbmodem</code> device:</p>
+<pre><code class="language-console">$ ls /dev/tty.usbmodem*
+/dev/tty.usbmodem0
+</code></pre>
+<p>(If you are using a ESP32-C3-DevKitC-02 the command is <code>$ ls /dev/ttyUSB*</code> )</p>
+<p><strong>macOS</strong>:</p>
+<p>The device will show up as part of the USB tree in <code>system_profiler</code>:</p>
+<pre><code class="language-console">
+$ system_profiler SPUSBDataType | grep -A 11 &quot;USB JTAG&quot;
+
+USB JTAG/serial debug unit:
+
+  Product ID: 0x1001
+  Vendor ID: 0x303a
+  (...)
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="software"><a class="header" href="#software">Software</a></h1>
+<p>Follow the steps below for a default installation of the ESP32-C3 platform tooling. </p>
+<p>🔎 Should you desire a customized installation (e.g. building parts from source, or add support for Xtensa/ESP32-S3), instructions for doing so can be found in the <a href="https://esp-rs.github.io/book/dependencies/installing-rust.html">Installing Rust</a> chapter of the <em>Rust on ESP</em> Book. </p>
+<h2 id="rust-toolchain"><a class="header" href="#rust-toolchain">Rust toolchain</a></h2>
+<p>✅ If you haven't got Rust on your computer, obtain it via <a href="https://rustup.rs/">https://rustup.rs/</a></p>
+<p>Furthermore, for ESP32-C3, a specific <em>nightly</em> version of the Rust toolchain is currently required.</p>
+<p>✅ Install nightly Rust and add support for the target architecture using the following console commands:</p>
+<pre><code class="language-console">$ rustup install nightly-2022-03-10
+$ rustup component add rust-src --toolchain nightly-2022-03-10
+</code></pre>
+<p>🔎 Rust is capable of cross-compiling to any supported target (see <code>rustup target list</code>). By default, only the native architecture of your system is installed.
+To build for the Xtensa architecture (<em>not</em> part of this material), a fork of the Rust compiler is required as of January 2022.</p>
+<h2 id="espressif-toolchain"><a class="header" href="#espressif-toolchain">Espressif toolchain</a></h2>
+<p>Several tools are required:</p>
+<ul>
+<li><code>cargo-espflash</code> - upload firmware to the microcontroller</li>
+<li><code>ldproxy</code> - Espressif build toolchain dependency</li>
+</ul>
+<p>✅ Install them with the following command:</p>
+<pre><code class="language-console">$ cargo install cargo-espflash ldproxy
+</code></pre>
+<h2 id="toolchain-dependencies"><a class="header" href="#toolchain-dependencies">Toolchain dependencies</a></h2>
+<h3 id="debianubuntu"><a class="header" href="#debianubuntu">Debian/Ubuntu</a></h3>
+<pre><code class="language-console">$ sudo apt install llvm-dev libclang-dev clang
+</code></pre>
+<h3 id="macos"><a class="header" href="#macos">macOS</a></h3>
+<p>(when using the Homebrew package manager, which we recommend)</p>
+<pre><code class="language-console">$ brew install llvm
+</code></pre>
+<h3 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h3>
+<ul>
+<li>
+<p>Python 3 is a required dependency. It comes preinstalled on stock macOS and typically on desktop Linux distributions. An existing <strong>Python 2</strong> installation with the <code>virtualenv</code> add-on pointing to it is known to potentially cause build problems. </p>
+</li>
+<li>
+<p>Error <code>failed to run custom build command for libudev-sys v0.1.4</code> or <code>esp-idf-sys v0.30.X</code>:</p>
+<p>At time of writing, this can be solved by </p>
+<ol>
+<li>running <a href="https://github.com/esp-rs/rust-build/blob/f773036483333f3b4618d988f9a1eda051573cb2/support/esp-rs-rust/Containerfile#L13">this line</a> from the <code>esp-rs</code> container:</li>
+</ol>
+<p><code>apt-get update \ &amp;&amp; apt-get install -y vim nano git curl gcc ninja-build cmake libudev-dev python3 python3-pip libusb-1.0-0 libssl-dev \ pkg-config libtinfo5</code></p>
+<ol start="2">
+<li>
+<p>restarting the terminal</p>
+</li>
+<li>
+<p>If this is not working, try <code>cargo clean</code>, remove the <code>~/.espressif</code> folder and reinstall <a href="https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/linux-macos-setup.html">according to esp instructions</a>.</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
+<blockquote>
+<p>❗️ Please <strong>note</strong> the Docker container provides an alternative option to <strong>compile</strong> the Rust exercises in.
+It is meant for users that have experience with virtualized environments.
+Be aware that we cannot provide help for Docker specific issues during the training.</p>
+</blockquote>
+<p>An alternative environment to <strong>compile</strong> the Rust exercises in is to use Docker. In this repository there is a <code>Dockerfile</code>
+with instructions to install the Rust toolchain &amp; all required packages. This virtualized environment is designed
+to only compile the binaries for the espressif target. Other commands, e.g. using <code>cargo-espflash</code>, still need to
+be executed on the host system.</p>
+<p>✅ Install <a href="https://docs.docker.com/get-docker/"><code>Docker</code></a> for your operating system.</p>
+<p>To build the Docker image run the following command from the root folder:</p>
+<pre><code class="language-console">$ docker image build --tag esp --file .devcontainer/Dockerfile .
+</code></pre>
+<p>Building the image takes a while depending on the OS &amp; hardware (20-30 minutes).</p>
+<p>To start the new Docker container run:</p>
+<pre><code class="language-console">$ docker run --mount type=bind,source=&quot;$(pwd)&quot;,target=/workspace,consistency=cached -it esp /bin/bash
+</code></pre>
+<p>This starts an interactive shell in the Docker container. It also mounts the local repository to a folder
+named <code>/workspace</code> inside the container. Changes to the project on the host system are reflected inside the container &amp; vice versa.</p>
+<p>Using this Docker setup requires certain commands to run inside the container, while other have to be executed on the host system.
+It's recommended to keep two terminals open, one connected to the Docker container, one on the host system.</p>
+<ul>
+<li>in the container: compile the project</li>
+<li>on the host: use the <code>cargo-espflash</code> sub-command to flash the program onto the embedded hardware</li>
+</ul>
+<h2 id="additional-software"><a class="header" href="#additional-software">Additional Software</a></h2>
+<h3 id="vs-code"><a class="header" href="#vs-code">VS Code</a></h3>
+<p>One editor with good Rust support is <a href="https://code.visualstudio.com/">VS Code</a> which is available for most platforms.
+When using VS Code we recommend the following extensions to help during the development.</p>
+<ul>
+<li><code>Even Better TOML</code> for editing TOML based configuration files</li>
+<li><a href="https://rust-analyzer.github.io/"><code>Rust Analyzer</code></a> to provide code completion &amp; navigation</li>
+</ul>
+<p>There are a few more useful extensions for advanced usage</p>
+<ul>
+<li><a href="https://github.com/vadimcn/vscode-lldb"><code>lldb</code></a> a native debugger extension based on LLDB</li>
+<li><a href="https://github.com/serayuzgur/crates"><code>crates</code></a> to help manage Rust dependencies</li>
+</ul>
+<h3 id="vs-code--devcontainer"><a class="header" href="#vs-code--devcontainer">VS Code &amp; Devcontainer</a></h3>
+<p>One extension for VS Code that might be helpful to develop inside a Docker container is <a href="https://github.com/Microsoft/vscode-remote-release"><code>Remote Containers</code></a>.
+It uses the same <code>Dockerfile</code> as the Docker setup, but builds the image and connects to it from within VS Code.
+Once the extension is installed VS Code recognizes the configuration in the <code>.devcontainer</code> folder. Use the <code>Remote Containers - Reopen in Container</code> command to connect VS Code to the container.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="workshop-repository"><a class="header" href="#workshop-repository">Workshop repository</a></h1>
+<p>The entire material can be found at <a href="https://github.com/ferrous-systems/espressif-trainings">https://github.com/ferrous-systems/espressif-trainings</a>.</p>
+<p>✅ Clone and change into the workshop repository:</p>
+<pre><code class="language-console">$ git clone &quot;https://github.com/ferrous-systems/espressif-trainings.git&quot;
+$ cd espressif-trainings
+</code></pre>
+<p>❗ Windows users may have problems with long path names. Follow these steps to substitute the path:</p>
+<pre><code class="language-console">git clone https://github.com/ferrous-systems/espressif-trainings.git
+subst r:\ espressif-trainings
+cd r:\
+</code></pre>
+<h2 id="repository-contents"><a class="header" href="#repository-contents">Repository contents</a></h2>
+<ul>
+<li><code>advanced/</code> - code examples and exercises for the advanced course</li>
+<li><code>book/</code> - markdown sources of this book</li>
+<li><code>common/</code> - code shared between both courses</li>
+<li><code>common/lib/</code> - support crates</li>
+<li><code>common/lib/esp32-c3-dkc02-bsc</code> - board support crate (bsc) for the <code>ESP32-C3-DevKitC-02</code> board</li>
+<li><code>common/vendor/</code> - third party crates that have been forked to add required support, pending upstream merges </li>
+<li><code>extra/</code> - tools not required for this training which might still be useful</li>
+<li><code>intro/</code> - code examples and exercises for the introduction course</li>
+</ul>
+<h2 id="a-word-on-configuration"><a class="header" href="#a-word-on-configuration">A word on configuration</a></h2>
+<p>We use <a href="https://github.com/jamesmunns/toml-cfg">toml-cfg</a> throughout this workshop as a more convenient and secure alternative to putting credentials or other sensitive information directly in source code: the settings are stored in a file called <code>cfg.toml</code> in the respective package root instead</p>
+<p>This configuration contains exactly one section header which has the same name as your package (<code>name = &quot;your-package&quot;</code> in <code>Cargo.toml</code>), and the concrete settings will differ between projects:</p>
+<pre><code class="language-toml">[your-package]
+user = &quot;example&quot;
+password = &quot;h4ckm3&quot;
+</code></pre>
+<p>If you copy a <code>cfg.toml</code> to a new project, remember to change the header to <code>[name-of-new-package]</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hello-board"><a class="header" href="#hello-board">Hello, board!</a></h1>
+<p>You're now ready to do a consistency check.</p>
+<p>✅ Connect the USB-C port of the board to your computer and enter the hardware check directory in the workshop repository:</p>
+<pre><code class="language-console">espressif-trainings$ cd intro/hardware-check
+</code></pre>
+<p>To test Wi-Fi connectivity, you will have to provide your network name (SSID) and password (PSK). These credentials are stored in a dedicated <code>cfg.toml</code> file (which is <code>.gitignore</code>d) to prevent accidental disclosure by sharing source code or doing pull requests. An example is provided. </p>
+<p>✅ Copy <code>cfg.toml.example</code> to <code>cfg.toml</code> (in the same directory) and edit it to reflect your actual credentials:</p>
+<p>❗️The 5GHz band is not supported according to <a href="https://www.espressif.com/en/news/ESP32-C3_Wi-Fi_Certified#:%7E:text=ESP32%2DC3%20is%20a%20safe,wide%20range%20of%20IoT%20applications">ESP32-C3 documentation</a>, you need to ensure you are using a WiFi with active 2.4GHz band.</p>
+<pre><code class="language-console">$ cp cfg.toml.example cfg.toml
+$ $EDITOR cfg.toml
+$ cat cfg.toml
+
+[hardware-check]
+wifi_ssid = &quot;Your Wifi name&quot;
+wifi_psk = &quot;Your Wifi password&quot; 
+</code></pre>
+<p>✅ Build, run and monitor the project, substituting the actual serial device name for <code>/dev/SERIAL_DEVICE</code>:</p>
+<pre><code class="language-console">$ cargo espflash --release --monitor /dev/SERIAL_DEVICE
+
+Serial port: /dev/SERIAL_DEVICE
+Connecting...
+
+Chip type:         ESP32-C3 (revision 3)
+(...)
+Compiling hardware-check v0.1.0
+Finished release [optimized] target(s) in 1.78s
+
+[00:00:45] ########################################     418/418     segment 0x10000
+
+Flashing has completed!
+(...)
+rst:0x1 (POWERON),boot:0xc (SPI_FAST_FLASH_BOOT)
+(...)
+(...)
+(...)
+I (4427) bsc::wifi: Wifi connected!
+</code></pre>
+<p>The board LED should turn yellow on startup, and then, depending on whether a Wifi connection could be established, either turn red (error) or blink, alternating green and blue. In case of a Wifi error, a diagnostic message will also show up at the bottom, e.g.:</p>
+<pre><code class="language-console">Error: could not connect to Wi-Fi network: ESP_ERR_TIMEOUT
+</code></pre>
+<h2 id="extra-information-about-building-flashing-and-monitoring"><a class="header" href="#extra-information-about-building-flashing-and-monitoring">Extra information about building, flashing and monitoring</a></h2>
+<p>If you want to try to build without flashing, you can run:</p>
+<pre><code class="language-console">cargo build --target riscv32imc-esp-espidf
+</code></pre>
+<p>This can save a lot of time as you do not need to re-flash the program in its entirety and flashing can take up quit some time.</p>
+<p>If <code>cargo espflash --release --monitor /dev/YOUR_SERIAL_DEVICE</code> has been successful, you can exit with <code>ctrl+C</code>, and run the monitor the device without flashing anew with the following command:</p>
+<pre><code class="language-console">espmonitor /dev/YOUR_SERIAL_DEVICE
+</code></pre>
+<h1 id="troubleshooting-1"><a class="header" href="#troubleshooting-1">Troubleshooting</a></h1>
+<h2 id="build-errors"><a class="header" href="#build-errors">Build errors</a></h2>
+<pre><code class="language-console">error[E0463]: can't find crate for `core`
+= note: the `riscv32imc-esp-espidf` target may not be installed
+</code></pre>
+<p>You're trying to build with a <code>stable</code> Rust - you need to use <code>nightly</code>.
+this error message is slightly misleading - this target <em>cannot</em> be installed. It needs to be built from source, using <code>build-std</code>, which is a feature available on nightly only.</p>
+<hr />
+<pre><code class="language-console">error: cannot find macro `llvm_asm` in this scope
+</code></pre>
+<p>You're using an incompatible version of nightly - configure a suitable one using <code>rust-toolchain.toml</code> or  <code>cargo override</code>.</p>
+<hr />
+<pre><code class="language-console">CMake Error at .../Modules/CMakeDetermineSystem.cmake:129 (message):
+</code></pre>
+<p>Your Espressif toolchain installation might be damaged. Delete it and rerun the build to trigger a fresh download:</p>
+<pre><code class="language-console">$ rm -rf ~/.espressif
+</code></pre>
+<h2 id="connecting-to-wifi"><a class="header" href="#connecting-to-wifi">Connecting to Wifi</a></h2>
+<ul>
+<li>You will get an <code>ESP_ERR_TIMEOUT</code> error also in case your network name or password are incorrect, so double-check those.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="intro-workshop"><a class="header" href="#intro-workshop">Intro Workshop</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="project-organization"><a class="header" href="#project-organization">Project organization</a></h1>
+<h2 id="the-esp-rs-crates"><a class="header" href="#the-esp-rs-crates">The esp-rs crates</a></h2>
+<p>Unlike most other embedded platforms, Espressif supports the Rust standard library. Most notably this means you'll have arbitrary-sized collections like <code>Vec</code> or <code>HashMap</code> at your disposal, as well as generic heap storage using <code>Box</code>. You're also free to spawn new threads, and use synchronization primitives like <code>Arc</code> and <code>Mutex</code> to safely share data between them.
+Still, memory is a scarce resource on embedded systems, and so you need to take care not to run out of it - threads in particular can become rather expensive.</p>
+<p>Services like WiFi, HTTP client/server, MQTT, OTA updates, logging etc. are exposed via Espressif's open source IoT Development Framework, <a href="https://github.com/espressif/esp-idf">esp-idf</a>. It is mostly written in C and as such is exposed to Rust in the canonical split crate style: </p>
+<ul>
+<li>a <code>sys</code> crate to provide the actual <code>unsafe</code> bindings (<a href="https://github.com/esp-rs/esp-idf-sys">esp-idf-sys</a>)</li>
+<li>a higher level crate offering safe and comfortable Rust abstractions (<a href="https://github.com/esp-rs/esp-idf-svc/">esp-idf-svc</a>)</li>
+</ul>
+<p>The final piece of the puzzle is low-level hardware access, which is again provided in a split fashion:</p>
+<ul>
+<li><a href="https://github.com/esp-rs/esp-idf-hal">esp-idf-hal</a> implements the hardware-independent <a href="https://github.com/rust-embedded/embedded-hal">embedded-hal</a> traits like analog/digital conversion, digital I/O pins, or SPI communication - as the name suggests, it also uses <code>esp-idf</code> as a foundation</li>
+<li>if direct register manipulation is required, <a href="https://github.com/esp-rs/esp32c3">esp32c3</a> provides the peripheral access create generated by svd2rust.</li>
+</ul>
+<p>More information is available in the <a href="https://esp-rs.github.io/book/overview/using-the-standard-library.html">ecosystem chapter</a> of the <code>esp-rs</code> book.</p>
+<h3 id="build-toolchain"><a class="header" href="#build-toolchain">Build toolchain</a></h3>
+<p>🔎 As part of a project build, <code>esp-idf-sys</code> will download <a href="https://github.com/espressif/esp-idf">esp-idf</a>, the C-based Espressif toolchain. The download destination is configurable; to save disk space and download time, all examples/exercises in the workshop repository are set to use one single <code>global</code> toolchain, installed in <code>~/.espressif</code>. See the <code>ESP_IDF_TOOLS_INSTALL_DIR</code> parameter in <code>esp-idf-sys</code>'s <a href="https://github.com/esp-rs/esp-idf-sys#configuration">README</a> for other options.</p>
+<h2 id="package-layout"><a class="header" href="#package-layout">Package layout</a></h2>
+<p>On top of the usual contents of a Rust project created with <code>cargo new</code>, a few additional files and parameters are required. The examples/exercises in this workshop are already fully configured, and for creating new projects it is recommended to use the <a href="./03_2_cargo_generate.html">cargo-generate</a> wizard based approach.</p>
+<p>🔎 The rest of this page is optional knowledge that can come in handy should you wish to change some aspects of a project.</p>
+<h3 id="cargotoml"><a class="header" href="#cargotoml"><code>Cargo.toml</code></a></h3>
+<p>This workshop is written around the <code>native</code> build system. Alternatively you may use <code>PlatformIO</code>/<code>pio</code>, however this is currently being deprecated.</p>
+<pre><code class="language-toml">[features]
+default = [&quot;native&quot;]
+native = [&quot;esp-idf-sys/native&quot;]
+</code></pre>
+<p>Some build dependencies must be set:</p>
+<pre><code class="language-toml">[build-dependencies]
+embuild = &quot;0.28&quot;
+anyhow = &quot;1&quot;
+</code></pre>
+<h3 id="additional-configuration-files"><a class="header" href="#additional-configuration-files">Additional configuration files</a></h3>
+<ul>
+<li><code>build.rs</code> - <a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">Cargo build script</a>. Here: sets environment variables required for building.</li>
+<li><code>.cargo/config.toml</code> - sets the target architecture and controls build details. This is the place to override <code>ESP_IDF_TOOLS_INSTALL_DIR</code> if you wish to do so.</li>
+<li><code>sdkconfig.defaults</code> - overrides <code>esp-idf</code> specific parameters such as stack size or log level.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="generating-new-projects"><a class="header" href="#generating-new-projects">Generating new projects</a></h1>
+<p>We're now going to use <a href="https://github.com/cargo-generate/cargo-generate"><code>cargo-generate</code></a> (a generic project wizard) to set up our first application.</p>
+<blockquote>
+<p>Most other exercises in this workshop already provide a project skeleton and don't require using <code>cargo-generate</code>.</p>
+</blockquote>
+<p>✅ Change to the <code>intro</code> directory and run <code>cargo generate</code> with the <code>esp-idf</code> template:</p>
+<pre><code class="language-shell">$ cd intro
+$ cargo generate --git https://github.com/esp-rs/esp-idf-template cargo
+</code></pre>
+<p>You'll be prompted for details regarding your new project. When given a choice between several options, navigate using cursor up/down and select with the Return key.</p>
+<p>The first message you see will be:
+<code>⚠️Unable to load config file: /home/$USER/.cargo/cargo-generate.toml</code>. You see this error because you do not have a favorite config file, but you don't need one and you can ignore this warning.</p>
+<p>🔎 You can create a <a href="https://cargo-generate.github.io/cargo-generate/favorites.html">favorite config file</a> that will be placed in <code>$CARGO_HOME/cargo-generate</code>, and override it with <code>-c, --config &lt;config-file&gt;</code>. </p>
+<blockquote>
+<p>If you make a mistake, hit <code>Ctrl+C</code> and start anew.</p>
+</blockquote>
+<p>✅ Configure your project:</p>
+<p>(These items may appear in a different order)</p>
+<ul>
+<li>Project Name: <code>hello-world</code></li>
+<li>Rust toolchain: <code>nightly</code></li>
+<li>MCU: <code>esp32c3</code></li>
+<li>ESP-IDF native build version: <code>4.4</code></li>
+<li>STD support: <code>true</code></li>
+</ul>
+<p>We're going to build using the <code>native</code> variant of the Espressif build system.</p>
+<p>✅ Enable the native build system by opening <code>Cargo.toml</code> in your new <code>hello-world</code> project and adding <code>&quot;native&quot;</code> as default feature:</p>
+<pre><code class="language-toml">[features]
+default = [&quot;native&quot;] # add this line
+native = [&quot;esp-idf-sys/native&quot;]
+</code></pre>
+<p>🔎 <code>.cargo/config.toml</code> contains local settings (<a href="https://doc.rust-lang.org/cargo/reference/config.html">list of all settings</a>) for your package. 
+<code>Cargo.toml</code> contains dependencies <a href="https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html">import all your dependencies</a>.</p>
+<p>Optional, but recommended: To save disk space and download time, set the toolchain directory to global - otherwise each new project/workspace will have its own instance of the toolchain installed on your computer.</p>
+<p>✅ Open <code>hello-world/.cargo/config.toml</code> and add the following line to the bottom of the <code>[env]</code> section. Leave everything else unchanged.</p>
+<pre><code class="language-toml">[env]
+# ... 
+ESP_IDF_TOOLS_INSTALL_DIR = { value = &quot;global&quot; } # add this line
+</code></pre>
+<p>✅ Open <code>hello-world/rust-toolchain.toml</code> and change the file to look like this:</p>
+<pre><code class="language-toml">[toolchain]
+
+channel = &quot;nightly-2022-03-10&quot; # change this line
+</code></pre>
+<p>✅ Run your project by using the following command out of the <code>hello_world</code> directory.</p>
+<pre><code class="language-shell">$ cd hello-world
+$ cargo espflash --release --monitor /dev/SERIAL_DEVICE
+</code></pre>
+<p>✅ The last lines of your output should look like this:</p>
+<pre><code class="language-shell">(...)
+I (268) cpu_start: Starting scheduler.
+Hello, world!
+</code></pre>
+<h2 id="extra-tasks"><a class="header" href="#extra-tasks">Extra tasks</a></h2>
+<ul>
+<li>If your main function exits, you have to reset the microcontroller to start it again. What happens when you put an infinite loop at the end instead? Test your theory by flashing a looping program.</li>
+<li>Can you think of a way to prevent what you're now seeing? (click for hint:<sup class="footnote-reference"><a href="#hint">1</a></sup>)</li>
+</ul>
+<h2 id="troubleshooting-2"><a class="header" href="#troubleshooting-2">Troubleshooting</a></h2>
+<ul>
+<li><code>⛔ Git Error: authentication required</code>: your git configuration is probably set to override <code>https</code> github URLs to <code>ssh</code>. Check your global <code>~/.git/config</code> for <code>insteadOf</code> sections and disable them.</li>
+<li><code>Error: Failed to generate bindings</code>: add <code>default = [&quot;native&quot;]</code> to <code>Cargo.toml</code></li>
+<li>if you're using the deprecated <code>pio</code> build system, an <a href="https://github.com/espressif/esp-idf/issues/3920">initial git commit of your project</a> will be required for a successful build.</li>
+<li>if <code>cargo espflash</code> is stuck on <code>Connecting...</code>, you might have another monitor process still running (e.g. from the initial <code>hardware-check</code> test). Try finding and terminating it. If this doesn't help, disconnect and reconnect the board's USB cable.</li>
+</ul>
+<div class="footnote-definition" id="hint"><sup class="footnote-definition-label">1</sup>
+<p>yield control back to the underlying operating system by <code>sleep</code>ing in a loop instead of busy waiting. (use <code>use std::thread::sleep</code>)</p>
+</div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="http-and-https-client"><a class="header" href="#http-and-https-client">HTTP and HTTPS client</a></h1>
+<p>In this exercise, we'll write a small client that retrieves data over a HTTP connection to the internet.
+Then we will upgrade it into an HTTPS client.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="http-client"><a class="header" href="#http-client">HTTP client</a></h1>
+<p>The goal of this exercise is to write a small HTTP client that connects to a website.</p>
+<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
+<p>✅ Go to <code>intro/http-client/exercise</code> directory.</p>
+<p>✅ Open the prepared project skeleton in <code>intro/http-client/exercise</code>. </p>
+<p>✅ Add your <a href="02_4_hello_board.html">network credentials</a> to the <code>cfg.toml</code> as in the hardware test. </p>
+<p>✅ Open the docs for this project with the following command:</p>
+<pre><code>$ cargo doc --open
+</code></pre>
+<h2 id="making-a-connection"><a class="header" href="#making-a-connection">Making a connection</a></h2>
+<p>By default only unencrypted HTTP is available, which rather limits our options of hosts to connect to. We're going to use <code>http://neverssl.com/</code>.</p>
+<p>In <code>esp-idf</code>, HTTP client connections are managed by <code>http::client::EspHttpClient</code> in the <code>esp-idf-svc</code> crate. It implements the <code>http::client::Client</code> trait from <code>embedded-svc</code>, which defines functions for <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods">HTTP request methods</a> like <code>GET</code> or <code>POST</code>. This is a good time to have a look at the documentation you opened with <code>cargo doc --open</code> for <code>http::client::EspHttpClient</code> and see instantiation methods at your disposal.</p>
+<p>✅ Add the url <code>http://neverssl.com/</code> to the main function. This is the address we will query.</p>
+<p>✅ Create a new <code>EspHttpClient</code> with default values. Look for a suitable constructor in the documentation.</p>
+<p>Calling HTTP functions (e.g. <code>get(url)</code>) on this client returns an <code>EspHttpRequest</code>, which must be turned into a <code>Writer</code> to reflect the client's option to send some data alongside its request. </p>
+<p>After this optional send step the <code>Writer</code> can be turned into a <code>Response</code> from which the received server output can be read:</p>
+<p>The <code>get</code> function uses <a href="https://doc.rust-lang.org/std/convert/trait.AsRef.html">as_ref()</a>. This means that instead of being restricted to one specific type like just <code>String</code> or just <code>&amp;str</code>, the function can accept anything that implements the <code>AsRef&lt;str&gt;</code> trait - that is, any type where a call to <code>.as_ref()</code> will produce an <code>&amp;str</code>. This works for <code>String</code> and <code>&amp;str</code>, but also the <code>Cow&lt;str&gt;</code> enum type which contains either of the previous two.</p>
+<pre><code class="language-Rust">let request = client.get(some_url_ref)?;
+// the parameter passed to `into_writer` is the number of bytes
+// the client intends to send
+let writer = request.into_writer(0)?;
+let response = writer.into_response()?;
+</code></pre>
+<p>The parameter passed to <code>into_writer</code> is the number of bytes the client intends to send. Here we are not trying to send anything. </p>
+<p>A successful response has <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">a status code in the 2xx range</a>.</p>
+<p>✅ Verify the connection was successful.</p>
+<p>✅ Return an Error if the status is not in the 2xx range.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>match status {
+        200..=299 =&gt; {
+        }
+        _ =&gt; anyhow::bail!(&quot;unexpected response code: {}&quot;, status),
+    }
+<span class="boring">}
+</span></code></pre></pre>
+<p>The status error can be returned with the <a href="https://docs.rs/anyhow/latest/anyhow/index.html">Anyhow</a>, crate which contains various functionality to simplify application-level error handling. It supplies a universal <code>anyhow::Result&lt;T&gt;</code>, wrapping the success (<code>Ok</code>) case in T and removing the need to specify the Err type, as long as every error you return implements <code>std::error::Error</code>.</p>
+<p>✅ Turn your <code>response</code> into a <code>embedded_svc::io::Read</code> reader by calling <code>response.reader()</code> and read the received data chunk by chunk into a <code>u8</code> buffer using <code>reader.do_read(&amp;mut buf)</code>. <code>do_read</code> returns the number of bytes read - you're done when this value is <code>0</code>.</p>
+<p>✅ Report the total number of bytes read.</p>
+<p>✅ Log the received data to the console. Hint, the response in the buffert is in bytes, so you might need <a href="https://doc.rust-lang.org/std/str/fn.from_utf8.html">a method</a> to convert from bytes to <code>&amp;str</code>.</p>
+<h2 id="extra-tasks-1"><a class="header" href="#extra-tasks-1">Extra Tasks</a></h2>
+<p>✅ Handle 3xx, 4xx and 5xx status codes each in a separate match arm</p>
+<p>✅ Write a custom <code>Error</code> enum to represent these errors. Implement the <code>std::error::Error</code> trait for your error.</p>
+<h2 id="troubleshooting-3"><a class="header" href="#troubleshooting-3">Troubleshooting</a></h2>
+<ul>
+<li><code>missing WiFi name/password</code>: ensure that you've configured <code>cfg.toml</code> according to <code>cfg.toml.example</code> - a common problem is that package name and config section name don't match. </li>
+</ul>
+<pre><code class="language-toml"># Cargo.toml
+#...
+[package]
+name = &quot;http-client&quot;
+#...
+
+# cfg.toml
+[http-client]
+wifi_ssid = &quot;...&quot;
+wifi_psk = &quot;...&quot;
+</code></pre>
+<ul>
+<li><code>Guru Meditation Error: Core 0 panic'ed (Load access fault). Exception was unhandled.</code>
+This may caused by an <code>.unwrap()</code> in your code. Try replacing those by question marks.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="https-client"><a class="header" href="#https-client">HTTPS CLIENT</a></h1>
+<p>You will now make changes to your http client files.</p>
+<p>To establish a secure, encrypted HTTPS connection, we first need to add some certificates so a server's identity can be verified.</p>
+<p>✅ Enable basic TLS certificate support in your project's <code>sdkconfig.defaults</code> by deleting the existing <code>CONFIG_MBEDTLS...</code> lines and adding:</p>
+<pre><code class="language-cfg">CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=y
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_CMN=y
+</code></pre>
+<p>Now, we create a custom client configuration to use an <code>http::client::EspHttpClientConfiguration</code> which enables the use of these certificates and uses default values for everything else:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let client_config = EspHttpClientConfiguration {
+    use_global_ca_store: true,
+    crt_bundle_attach: Some(esp_idf_sys::esp_crt_bundle_attach),
+    ..Default::default()
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>✅ Initialize your HTTP client with this new configuration and verify HTTPS works by downloading from a <code>https</code> resource e.g. <code>https://espressif.com/</code></p>
+<h2 id="troubleshooting-repeated-from-previous-section"><a class="header" href="#troubleshooting-repeated-from-previous-section">Troubleshooting (repeated from previous section)</a></h2>
+<ul>
+<li><code>missing WiFi name/password</code>: ensure that you've configured <code>cfg.toml</code> according to <code>cfg.toml.example</code> - a common problem is that package name and config section name don't match. </li>
+</ul>
+<pre><code class="language-toml"># Cargo.toml
+#...
+[package]
+name = &quot;http-client&quot;
+#...
+
+# cfg.toml
+[http-client]
+wifi_ssid = &quot;...&quot;
+wifi_psk = &quot;...&quot;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="a-simple-http-server"><a class="header" href="#a-simple-http-server">A simple HTTP server</a></h1>
+<p>We're now turning our board into a tiny web server that upon receiving a <code>GET</code> request serves data from the internal temperature sensor. </p>
+<h2 id="setup-1"><a class="header" href="#setup-1">Setup</a></h2>
+<p>You can find a prepared project skeleton in <code>intro/http-server/exercise</code>. It includes establishing a WiFi connection, but you must configure it to use your network's credentials in <code>cfg.toml</code>.</p>
+<h2 id="serving-requests"><a class="header" href="#serving-requests">Serving requests</a></h2>
+<p>To connect to your board with your browser, you need to know the board's IP address. </p>
+<p>✅ Run the skeleton code. The output should yield the board's IP address like this:</p>
+<pre><code class="language-console">I (3862) esp_netif_handlers: sta ip: 192.168.178.54, mask: ...
+</code></pre>
+<p>The <code>sta ip</code> is the &quot;station&quot;, the WiFi term for an interface connected to an access point. This is the address you'll put in your browser (or other http client like <code>curl</code>).</p>
+<blockquote>
+<p>esp-idf tries to register the hostname <code>espressif</code> in your local network, so often <code>http://espressif/</code> instead of <code>http://&lt;sta ip&gt;/</code> will also work.</p>
+<p>You can change the hostname by setting <code>CONFIG_LWIP_LOCAL_HOSTNAME</code> in <code>sdkconfig.defaults</code>, e.g.: <code>CONFIG_LWIP_LOCAL_HOSTNAME=&quot;esp32c3&quot;</code></p>
+</blockquote>
+<p>Sending HTTP data to a client involves:</p>
+<ul>
+<li>creating an an instance of <code>EspHttpServer</code></li>
+<li>looping in the main function so it doesn't terminate - termination would result in the server going out of scope and subsequently shutting down</li>
+<li>setting a separate request <code>handler</code> function for each requested path you want to serve content. Any unconfigured path will result in a <code>404</code> error. These handler functions are realized inline as Rust closures via:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>server.set_inline_handler(path, method, |request, response| {
+    // the `response` needs to write data to the client
+    let mut writer = response.into_writer(request);
+
+    // construct a response
+    let some_buf = ...;
+
+    // now you can write your desired data
+    writer.do_write_all(&amp;some_buf);
+
+    // once you're done the handler expects a `Completion` as result,
+    // this is achieved via:
+    writer.complete()
+});
+
+<span class="boring">}
+</span></code></pre></pre>
+<p>✅ Create a <code>EspHttpServer</code> instance using a default <code>esp_idf_svc::http::server::Configuration</code>. The default configuration will cause it to listen on port 80 automatically. </p>
+<p>✅ Verify that a connection to <code>http://&lt;sta ip&gt;/</code> yields a <code>404</code> (not found) error stating <code>This URI does not exist</code>.</p>
+<p>✅ Write a request handler for <code>GET</code> requests to the root path (<code>&quot;/&quot;</code>). The request handler sends a greeting message at <code>http://&lt;sta ip&gt;/</code>, using the provided <code>index_html()</code> function to generate the HTML String.</p>
+<h2 id="dynamic-data"><a class="header" href="#dynamic-data">Dynamic data</a></h2>
+<p>We can also report dynamic information to a client. The skeleton includes a configured <code>temp_sensor</code> that measures the board's internal temperature. </p>
+<p>✅ Write a second handler that reports the chip temperature at <code>http://&lt;sta ip&gt;/temperature</code>, using the provided <code>temperature(val: f32)</code> function to generate the HTML String.</p>
+<h2 id="hints"><a class="header" href="#hints">Hints</a></h2>
+<ul>
+<li>If you want to send a response string, it needs to be converted into a <code>&amp;[u8]</code> slice via <code>a_string.as_bytes()</code></li>
+<li>The temperature sensor needs exclusive (mutable) access. Passing it as owned value into the handler will not work (since it would get dropped after the first invocation) - you can fix this by making the handler a <code>move ||</code> closure, wrapping the sensor in an <code>Arc&lt;Mutex&lt;_&gt;&gt;</code>, keeping one <code>clone()</code> of this <code>Arc</code> in your main function and moving the other into the closure.</li>
+</ul>
+<h2 id="troubleshooting-4"><a class="header" href="#troubleshooting-4">Troubleshooting</a></h2>
+<ul>
+<li><code>httpd_txrx: httpd_resp_send_err</code> can be solved by restarting, or <code>cargo clean</code> if nothing happens.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="iot-using-mqtt"><a class="header" href="#iot-using-mqtt">IoT using MQTT</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="how-does-mqtt-work"><a class="header" href="#how-does-mqtt-work">How does MQTT work</a></h1>
+<p>❗️This exercise requires an MQTT server. If you're participating in a Ferrous Systems training, login credentials for a server operated by Espressif will be made available in the workshop, otherwise you can use one listed at <a href="https://test.mosquitto.org/">https://test.mosquitto.org/</a> or install one locally.</p>
+<p>To conclude the introductory course, let's add some <a href="https://en.wikipedia.org/wiki/Internet_of_things">IoT</a> functionality to the board. 
+Our goal here is have it send out real-time updates of sensor values without having to poll repeatedly, like we would with an HTTP server, and also receive commands to change the board LED color.</p>
+<p>This can be modeled using a <a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">publish-subscribe architecture</a>, where multiple clients publish messages in certain channels/topics, and can also subscribe to these topics to receive messages sent by others. Dispatching of these messages is coordinated by a message broker - in our case, this is done an MQTT server.</p>
+<h2 id="mqtt-messages"><a class="header" href="#mqtt-messages">MQTT messages</a></h2>
+<p>An MQTT message consists of two parts - topic and payload.</p>
+<p>The topic serves the same purpose as an email subject or a label on a filing cabinet, whereas the payload contains the actual data.  The payload data format is not specified, although JSON is common.</p>
+<p>🔎 The most recent version of the MQTT standard (MQTT 5) supports content type metadata.</p>
+<p>When sending a MQTT message, a Quality of Service (QoS) parameter needs to be defined, indicating delivery guarantees:</p>
+<ul>
+<li>at most once</li>
+<li>at least once</li>
+<li>exactly once.</li>
+</ul>
+<p>For the purpose of this exercise it does not matter which quality you choose.</p>
+<h2 id="mqtt-topics"><a class="header" href="#mqtt-topics">MQTT topics</a></h2>
+<p>MQTT topics are UTF-8 strings representing a hierarchy, with individual levels separated by a <code>/</code> slash character. A leading slash is supported but not recommended. Some example topics are:</p>
+<pre><code class="language-code">home/garage/temperature
+beacons/bicycle/position
+home/alarm/enable
+home/front door/lock
+</code></pre>
+<p>Here a sensor would periodically publish the garage temperature which then gets broadcast to every subscriber, just as the bicycle beacon publishes its GPS coordinates. The <code>alarm</code> and <code>lock</code> topics serve as a command sink for specific devices. However, nothing prevents additional subscribers from listening in on these commands, which might provide useful for auditing purposes.</p>
+<p>🔎 Topics starting with <code>$</code> are reserved for statistics internal to the broker. Typically the topic will begin with <code>$SYS</code>. Clients cannot publish to these topics.</p>
+<p>❗️Since all workshop participants will be sharing the same MQTT server, some measures are required to prevent crosstalk between different projects. The exercise skeleton will generate a unique, random ID (in the <code>UUID v4</code> format) for each repository checkout. You can also <a href="https://www.uuidgenerator.net/version4">manually generate your own online</a>. Your UUID should be used as leading part of the message topics sent between computer and board, roughly resembling this pattern:</p>
+<pre><code class="language-code">6188eec9-6d3a-4eac-996f-ac4ab13f312d/sensor_data/temperature
+6188eec9-6d3a-4eac-996f-ac4ab13f312d/command/board_led
+</code></pre>
+<h2 id="subscribing-to-topics"><a class="header" href="#subscribing-to-topics">Subscribing to topics</a></h2>
+<p>A client sends several subscribe messages to indicate they're interested in receiving certain topics. Wildcards are optionally supported, both for a single hierarchy level and as a catch-all:</p>
+<ul>
+<li><code>home/garage/temperature</code> - subscribes only to this specific topic</li>
+<li><code>home/#</code> - the hash character is used as multi-level wildcard and thus subscribes to every topic starting with <code>home/</code> - <code>home/garage/temperature</code>, <code>home/front door/lock</code> and <code>home/alarm/enable</code> would all match, but <code>beacons/bicycle/position</code> won't. The multi-level wildcard must be placed at the end of a subscription string.</li>
+<li><code>home/+/temperature</code> - the plus character serves as single-level wildcard to subscribe to <code>home/garage/temperature</code>, <code>home/cellar/temperature</code>, etc.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mqtt-exercise-sending-messages"><a class="header" href="#mqtt-exercise-sending-messages">MQTT Exercise: Sending Messages</a></h1>
+<h2 id="setup-2"><a class="header" href="#setup-2">Setup</a></h2>
+<p>✅ You can find a prepared project skeleton in <code>intro/mqtt/exercise</code>. </p>
+<p>✅ In <code>intro/mqtt/host_client</code> you can find a host run program that mimics the behavior of a second client. Run it in a separate terminal using the <code>cargo run</code> command. Find more information about the host client below. </p>
+<p>The client also generates random RGB colors and publishes them in a topic.
+<strong>This is only relevant for the second part of this exercise</strong>. </p>
+<p>❗️ Similar to the http exercises you need to configure your connection credentials in <code>cfg.toml</code> for both programs. Besides WiFi credentials you'll also need to add MQTT server details. Check each <code>cfg.toml.example</code> for required settings. Remember the name between brackets in the the <code>cfg.toml</code> file is the name of the package in <code>Cargo.toml</code>.</p>
+<p>The structure of the exercises is as below. In this part, we will focus on the Temperature topic.</p>
+<p><img src="./assets/mqtt_structure.svg" alt="example_client_broker_board" /></p>
+<h2 id="tasks"><a class="header" href="#tasks">Tasks</a></h2>
+<p>✅ Create an <code>EspMqttClient</code> with a default configuration and an empty handler closure.</p>
+<p>✅ Send an empty message under the <code>hello</code> topic to the broker. Use the <code>hello_topic(uuid)</code> utility function to generate a properly scoped topic.</p>
+<p>✅ Verify a successful publish by having a client connected that logs these messages. The <code>host_client</code> implements this behavior. You should run it in another terminal.</p>
+<p>✅ In the loop at the end of your main function, publish the board temperature on <code>temperature_data_topic(uuid)</code> every second. Verify this, too.</p>
+<h2 id="establishing-a-connection"><a class="header" href="#establishing-a-connection">Establishing a connection</a></h2>
+<p>Connections are managed by an instance of <code>esp_idf_svc::mqtt::client::EspMqttClient</code>.
+It is constructed using</p>
+<ul>
+<li>a broker URL which in turn contains credentials, if necessary</li>
+<li>a configuration of the type <code>esp_idf_svc::mqtt::client::MqttClientConfiguration</code></li>
+<li>a handler closure similar to the http server exercise</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>const url = format!(&quot;mqtt://{}:{}@{}&quot;, username, password, host);
+let cfg = MqttClientConfiguration::default();
+let mut client = EspMqttClient::new_with_callback(url, &amp;cfg, move |message_event| { 
+    // ... your handler code here - leave this empty for now
+    // we'll add functionality later in this chapter
+};
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="support-tools--crates"><a class="header" href="#support-tools--crates">Support tools &amp; crates</a></h2>
+<p>To log the sensor values sent by the board, a helper client is provided under <code>intro/mqtt/example_client</code>. It subscribes to the temperature topic.</p>
+<p>The <code>mqtt_messages</code> crate (located in <code>common/lib</code>) supports handling messages, subscriptions and topics:</p>
+<h3 id="functions-to-generate-topic-strings"><a class="header" href="#functions-to-generate-topic-strings">Functions to generate topic strings</a></h3>
+<ul>
+<li><code>color_topic(uuid)</code> - creates a topic to send colors that will be published to the board.</li>
+<li><code>cmd_topic_fragment(uuid)</code> - creates the leading part of a &quot;command&quot; topic (the <code>a-uuid/command/</code> part in <code>a-uuid/command/board_led</code>)</li>
+<li><code>hello_topic(uuid)</code> - test topic for initially verifying a successful connection</li>
+<li><code>temperature_data_topic(uuid)</code> - creates a whole &quot;temperature&quot; topic string </li>
+</ul>
+<h3 id="encoding-and-decoding-message-payloads"><a class="header" href="#encoding-and-decoding-message-payloads">Encoding and decoding message payloads</a></h3>
+<p>The board temperature <code>f32</code> float is converted to four &quot;big endian&quot; bytes using <code>temp.to_be_bytes()</code>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// temperature
+let temperature_data = &amp;temp.to_be_bytes() as &amp;[u8]; // board
+let decoded_temperature = f32::from_be_bytes(temperature_data); // workstation
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="publish--subscribe"><a class="header" href="#publish--subscribe">Publish &amp; Subscribe</a></h2>
+<p><code>EspMqttClient</code> is also responsible for publishing messages under a given topic.
+The <code>publish</code> function includes a <code>retain</code> parameter indicating whether this message should also be delivered to clients that connect after it has been published. </p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let publish_topic = /* ... */;
+let payload: &amp;[u8] = /* ... */ ;
+client.publish(publish_topic, QoS::AtLeastOnce, false, payload)?;
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="troubleshooting-5"><a class="header" href="#troubleshooting-5">Troubleshooting</a></h2>
+<ul>
+<li><code>error: expected expression, found .</code> when building example client: update your stable Rust installation to 1.58 or newer</li>
+<li>MQTT messages not showing up? make sure all clients (board and workstation) use the same UUID (you can see it in the log output)</li>
+<li>Make sure the <code>cfg.toml</code> file is configured properly. The <code>example-client</code> has a <code>dbg!()</code> output at the start of the program, that shows <code>mqtt</code> configuration. It should output the content of your <code>cfg.toml</code> file.</li>
+<li><code>error: expected expression, found .</code> while running the host-client can be solved with <code>rustup update</code></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mqtt-exercise-receiving-led-commands"><a class="header" href="#mqtt-exercise-receiving-led-commands">MQTT Exercise: Receiving LED Commands</a></h1>
+<p>✅ Subscribe to <code>color_topic(uuid)</code></p>
+<p>✅ Run <code>host_client</code> in parallel in it's own terminal. The <code>host_client</code> publishes board LED <code>color</code> roughly every second.</p>
+<p>✅ Verify your subscription is working by logging the information received through the topic. </p>
+<p>✅ React to the LED commands by setting the newly received color to the board with <code>led.set_pixel(/* received color here */)</code>.</p>
+<h3 id="encoding-and-decoding-message-payloads-1"><a class="header" href="#encoding-and-decoding-message-payloads-1">Encoding and decoding message payloads</a></h3>
+<p>The board LED commands are made of three bytes indicating red, green and blue.
+- <code>enum ColorData</code> contains a topic <code>color_topic(uuid)</code> and the <code>BoardLed</code>
+- it can convert the <code>data()</code> field of an <code>EspMqttMessage</code> by using <code>try_from()</code>. The message needs first to be coerced into a slice, using <code>let message_data: &amp;[u8] = &amp;message.data();</code></p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// RGB LED command
+
+if let Ok(ColorData::BoardLed(color)) = ColorData::try_from(message_data) { /* set new color here */ }
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="publish--subscribe-1"><a class="header" href="#publish--subscribe-1">Publish &amp; Subscribe</a></h2>
+<p><code>EspMqttClient</code> is not only responsible for publishing but also for subscribing to topics.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let subscribe_topic = /* ... */;
+client.subscribe(subscribe_topic, QoS::AtLeastOnce)
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="handling-incoming-messages"><a class="header" href="#handling-incoming-messages">Handling incoming messages</a></h2>
+<p>The <code>message_event</code> parameter in the handler closure is of type <code>Option&lt;Result&lt;Event&lt;EspMqttMessage&gt;&gt;&gt;</code>.
+Since we're only interested in processing successfully received messages, we can make use of deep pattern matching into the closure:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut client =
+        EspMqttClient::new_with_callback(broker_url, &amp;mqtt_config, move |message_event| {
+            if let Some(Ok(Received(message))) = message_event {
+                /* process_message() function here */
+            }
+        })?;
+<span class="boring">}
+</span></code></pre></pre>
+<p>In the processing function, you will handle <code>Complete</code> messages. Use Rust Analyzer to generate the missing match arms or match any other type of response by logging an <code>info!()</code>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    match message.details() {
+        // all messages in this exercise will be of type `Complete`
+        // the other variants of the `Details` enum are for larger message payloads
+        Complete(token) =&gt; {
+            
+            // Cow&lt;&amp;[u8]&gt; can be coerced into a slice &amp;[u8] or a Vec&lt;u8&gt;
+            // You can coerce it into a slice to be sent to try_from()
+            let message_data: &amp;[u8] = &amp;message.data();
+            if let Ok(ColorData::BoardLed(color)) = ColorData::try_from(message_data) {
+                // set the LED to the newly received color
+
+            }
+        }
+        // Use Rust Analyzer to generate the missing match arms or match an incomplete message with a log message.
+        
+    }
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="hints-1"><a class="header" href="#hints-1">Hints</a></h2>
+<ul>
+<li>Use a logger to see what you are receiving, for example: <code>info!(&quot;{}&quot;, color);</code> or <code>dbg!(color)</code>.</li>
+</ul>
+<h2 id="extra-tasks-2"><a class="header" href="#extra-tasks-2">Extra tasks</a></h2>
+<h3 id="implement-mqtt-with-hierarchical-topics"><a class="header" href="#implement-mqtt-with-hierarchical-topics">Implement MQTT with hierarchical topics</a></h3>
+<ul>
+<li>
+<p>Implement the same procedure but by using MQTT hierarchy. Subscribe subscribing to all &quot;command&quot; messages, combining <code>cmd_topic_fragment(uuid)</code> with a trailing <code>#</code> wildcard.</p>
+</li>
+<li>
+<p>in the host client, you will need to change to replace <code>color</code> with <code>command</code>. For example, unquote this line <code>//let command = Command::BoardLed(color);</code> and quote the corresponding <code>let color = ColorData::BoardLed(color);</code>
+`</p>
+</li>
+<li>
+<p>Use <code>enum Command</code> instead of <code>enum ColorData</code>. <code>enum Command</code> represents all possible commands (here: just <code>BoardLed</code>).</p>
+</li>
+<li>
+<p><code>RawCommandData</code> stores the last part of a message topic (e.g. <code>board_led</code> in <code>a-uuid/command/board_led</code>). It can be converted into a <code>Command</code> using <code>try_from</code>.</p>
+</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// RGB LED command
+let raw = RawCommandData {
+    path: command,
+    data: message.data(),
+};
+
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>in the <code>process_message()</code> function you will need to parse the topic.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>match message.details() {
+    Details::Complete(token) =&gt; {
+        // all messages in this exercise will be of type `Complete`
+        // the other variants of the `Details` enum
+        // are for larger message payloads
+
+        // Cow&lt;str&gt; behaves a lot like other Rust strings (&amp;str, String)
+        let topic: Cow&lt;str&gt; = message.topic(token); 
+
+        // determine if we're interested in this topic and
+        // dispatch based on its content
+        let is_command_topic: bool = /* ... */;
+        if is_command_topic {
+            let raw = RawCommandData { /* ... */ };
+            if let Ok(Command::BoardLed(color)) = Command::try_from(raw) {
+                // set the LED to the newly received color
+            }
+        
+        },
+        _ =&gt; {}
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h4 id="hints-2"><a class="header" href="#hints-2">Hints!</a></h4>
+<ul>
+<li>Since you will be iterating over a MQTT topic, you will need to <code>split()</code> on a string returns an iterator. You can access a specific item from an iterator using <a href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.nth"><code>nth()</code></a>.</li>
+<li>The solution implementing hierarchy can be run with <code>cargo espflash --release --example solution2 --monitor /dev/tty.usbmodem0</code>, while the solution without can be run with <code>cargo espflash --release --monitor /dev/tty.usbmodem0</code> or <code>cargo espflash --release --example solution1 --monitor /dev/tty.usbmodem0</code></li>
+</ul>
+<h3 id="other-tasks"><a class="header" href="#other-tasks">Other tasks</a></h3>
+<ul>
+<li>leverage <a href="https://docs.serde.rs/serde_json/"><code>serde_json</code></a> to encode/decode your message data as JSON.</li>
+<li>Send some messages with a large payload from the host client and process them on the microcontroller. Large messages will be delivered in parts instead of <code>Details::Complete</code>:</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>InitialChunk(chunk_info) =&gt; { /* first chunk */},
+SubsequentChunk(chunk_data) =&gt; { /* all subsequent chunks */ }
+<span class="boring">}
+</span></code></pre></pre>
+<p>You do not need to differentiate incoming chunks based on message ID, since at most one message will be in flight at any given time. </p>
+<h2 id="troubleshooting-6"><a class="header" href="#troubleshooting-6">Troubleshooting</a></h2>
+<ul>
+<li><code>error: expected expression, found .</code> When building host client: update your stable Rust installation to 1.58 or newer</li>
+<li>MQTT messages not showing up? make sure all clients (board and workstation) use the same UUID (you can see it in the log output)</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="advanced-workshop"><a class="header" href="#advanced-workshop">Advanced Workshop</a></h1>
+<p>In this course we're going to dive deeper into topics that are embedded-only and/or close to the hardware, especially focussing on lower level i/o. Unlike in the first part, we'll not just use the higher level abstractions where for example something like pin configurations are hidden away. Instead you'll learn how to configure them yourself. You're also going to learn how to write directly into registers and how to find out which register is needed in the first place. We'll talk about ownership issues and memory safety issues in the context of exercises.</p>
+<p>This part consists of three exercises: </p>
+<p>In the first one you'll learn how to handle a button interrupt, in the second you'll read sensor values from sensors via the I²C bus. Once you have used the drivers we have prepared, you'll learn how to get started writing your own. This is a necessary skill as Rust drivers are usually not provided by manufacturers. </p>
+<h2 id="preparations-1"><a class="header" href="#preparations-1">Preparations</a></h2>
+<p>Please go through the <a href="./02_0_preparations.html">preparations</a> chapter to prepare for this workshop.</p>
+<h2 id="reference"><a class="header" href="#reference">Reference</a></h2>
+<p>If you're new to embedded programming read our <a href="./04_7_reference.html">reference</a> where we explain some terms in a basic manner. </p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lower-level-io-how-to-manipulate-registers"><a class="header" href="#lower-level-io-how-to-manipulate-registers">Lower level I/O: How to manipulate Registers</a></h1>
+<p>In general there are two ways to write firmware for the ESP32-C3. One is the bare-metal using only <code>[no_std]</code> Rust, and the other using <code>[std]</code> Rust and C-Bindings to the esp-idf.
+<code>[no_std]</code> Rust refers to Rust not using the standard library, only the core library, which is a subset of the standard library that does not depend on the existence of an operating system. </p>
+<h2 id="what-do-the-ecosystems-look-like"><a class="header" href="#what-do-the-ecosystems-look-like">What do the ecosystems look like?</a></h2>
+<h3 id="std-rust-and-the-esp-idf"><a class="header" href="#std-rust-and-the-esp-idf"><code>[std]</code> Rust and the esp-idf</a></h3>
+<p>The most established way to use Rust on ESP32-C3 is using C bindings to the esp-idf. We can use Rust's standard library when going this route, as we can use an operating system: FreeRTOS. Being able to use the standard library comes with benefits: We can use all types no matter if they are stack or heap allocated. We can use threads, Mutexes and other synchronization primitives.</p>
+<p>The esp-idf is mostly written in C and as such is exposed to Rust in the canonical split crate style: </p>
+<ul>
+<li>a <code>sys</code> crate to provide the actual <code>unsafe</code> bindings (<a href="https://github.com/esp-rs/esp-idf-sys">esp-idf-sys</a>)</li>
+<li>a higher level crate offering safe and comfortable Rust abstractions (<a href="https://github.com/esp-rs/esp-idf-svc/">esp-idf-svc</a>)</li>
+</ul>
+<p>The final piece of the puzzle is low-level hardware access, which is again provided in a split fashion:</p>
+<ul>
+<li><a href="https://github.com/esp-rs/esp-idf-hal">esp-idf-hal</a> implements the hardware-independent <a href="https://github.com/rust-embedded/embedded-hal">embedded-hal</a> traits like analog/digital conversion, digital I/O pins, or SPI communication - as the name suggests, it also uses <code>esp-idf</code> as a foundation</li>
+</ul>
+<p>More information is available in the <a href="https://esp-rs.github.io/book/overview/using-the-standard-library.html">ecosystem chapter</a> of the <code>esp-rs</code> book.</p>
+<p>This is the way that currently allows the most possibilities on Espressif chips if you want to use Rust. Everything in this course is based on this approach. </p>
+<p>We're going to look at how to write values into Registers in this ecosystem in the context of the Interrupt exercise. </p>
+<h3 id="bare-metal-rust-with-no_std"><a class="header" href="#bare-metal-rust-with-no_std">Bare metal Rust with <code>[no_std]</code></a></h3>
+<p>As the name bare metal implies, we don't use an operating system. Because of this, we can't use language features that rely on one. The core library is a subset of the standard library that excludes features like heap allocated types and threads. Code that uses only the core library is labelled with <code>#[no_std]</code>. <code>#[no_std]</code> code can always run in a <code>std</code> environment, but the reverse is not true.
+In Rust the mapping from Registers to Code works like this:</p>
+<p>Registers and their fields on a device are described in <em>System View Description</em> (SVD) files. <code>svd2rust</code> is used to generate <em>Peripheral Access Crates</em> (PACs) from these SVD files. The PACs provide a thin wrapper over the various memory-mapped registers defined for the particular model of micro-controller you are using.</p>
+<p>Whilst it is possible to write firmware with a PAC alone, some of it would prove unsafe or otherwise inconvenient as it only provides the most basic access to the peripherals of the microcontroller. So there is another layer, the <em>Hardware Abstraction Layer</em> (HAL). HALs provide a more user friendly API for the chip, and often implement common traits defined in the generic <a href="https://github.com/rust-embedded/embedded-hal"><code>embedded-hal</code></a>.</p>
+<p>Microcontrollers are usually soldered to some <em>Printed Circuit Board</em> (or just <em>Board</em>), which defines the connections that are made to each pin. A <em>Board Support Crate</em> (BSC, also known as a <em>Board Support Package</em> or BSP) may be written for a given board. This provides yet another layer of abstraction and might, for example, provide an API to the various sensors and LEDs on that board - without the user necessarily needing to know which pins on your microcontroller are connected to those sensors or LEDs.</p>
+<p>Although a <a href="https://github.com/esp-rs/esp-pacs/tree/main/esp32c3">PAC</a> for the ESP32-C3 exists, bare-metal Rust is highly experimental on ESP32-C3 chips, so for now we will not work with it on the microcontroller directly. We will write a partial sensor driver in this approach as driver's should be platform agnostic.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="i²c"><a class="header" href="#i²c">I²C</a></h1>
+<h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
+<p>The Inter-Integrated Circuit protocol (usually shortened to I²C or I2C) allows multiple peripheral chips to communicate with one or more controller chips. Many devices can be connected to the same I²C bus and messages can be sent to a particular device by specifying its I²C address. The protocol requires two signal wires and can only be used for short-distance communications within one device. </p>
+<p>One of the signal lines is for data (SDA) and the other is for the clock signal (SCL). The lines are pulled-high by default with some resistors fitted somewhere on the bus. Any device on the bus (or even multiple devices simultaneously) can 'pull' either or both of the signal lines low. This means that no damage occurs if two devices try and talk on the bus at the same time - the messages are merely corrupted (and detectably so).</p>
+<p>An I²C <em>transaction</em> consists of one or more <em>messages</em>. Each <em>message</em> is comprised of a <em>start symbol</em>, some <em>words</em>, and finally a <em>stop symbol</em> (or another <em>start symbol</em> if there is a follow-on message). Each word is eight bits, followed by an ACK (0) or NACK (1) bit which is sent by the recipient to indicate whether the word was received and understood correctly. The first word indicates both the 7-bit address of the device the message is intended for, plus a bit to indicate if the device is being <em>read from</em> or being <em>written to</em>. If there is no device of that address on the bus, the first word will naturally have a 'NACK' after it (because there is no device driving the SDA line low to generate an 'ACK' bit) and so you know there is no device present.</p>
+<p>The clock frequency of the SCL line is usually 100 kHz but sometimes faster speeds like 400 kHz (or higher) are supported.</p>
+<p>To read three bytes from an EEPROM device, the sequence will be something like:</p>
+<table><thead><tr><th>Step</th><th>Controller Sends</th><th>Peripheral Sends</th></tr></thead><tbody>
+<tr><td>1.</td><td>START</td><td></td></tr>
+<tr><td>2.</td><td>Device Address + W</td><td></td></tr>
+<tr><td>3.</td><td></td><td>ACK</td></tr>
+<tr><td>4.</td><td>High EEPROM Address byte</td><td></td></tr>
+<tr><td>5.</td><td></td><td>ACK</td></tr>
+<tr><td>6.</td><td>Low EEPROM Address byte</td><td></td></tr>
+<tr><td>7.</td><td></td><td>ACK</td></tr>
+<tr><td>8.</td><td>START</td><td></td></tr>
+<tr><td>9.</td><td>Device Address + R</td><td></td></tr>
+<tr><td>10.</td><td></td><td>ACK</td></tr>
+<tr><td>11.</td><td></td><td>Data Byte from EEPROM Address</td></tr>
+<tr><td>12.</td><td>ACK</td><td></td></tr>
+<tr><td>13.</td><td></td><td>Data Byte from EEPROM Address + 1</td></tr>
+<tr><td>14.</td><td>ACK</td><td></td></tr>
+<tr><td>15.</td><td></td><td>Data Byte from EEPROM Address + 2</td></tr>
+<tr><td>16.</td><td>NAK (i.e. end-of-read)</td><td></td></tr>
+<tr><td>17.</td><td>STOP</td><td></td></tr>
+</tbody></table>
+<p>TODO I2C signal image</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="i2c-sensor-reading-exercise"><a class="header" href="#i2c-sensor-reading-exercise">I2C Sensor Reading Exercise</a></h2>
+<p>TODO <code>i2c-sensor-reading/exercise/src/main.rs</code> is an exercise skeleton that will build. The task is to use an existing driver from crates.io to read out the temperature and humidity sensor over i2c. After that, a second sensor will be read out over the same i2c bus using <code>shared-bus</code>. The driver for the second sensor is available locally in <code>common/</code>.</p>
+<p><code>i2c-sensor-reading/solution/src/main.rs</code> contains a working solution.</p>
+<ul>
+<li>
+<p>Define two pins, one as SDA and one as SCL. Use them to instantiate an Instance of the I²C peripheral. </p>
+</li>
+<li>
+<p>Using the existing driver crates, make an instance of each sensor, passing the I²C instance into them. </p>
+</li>
+</ul>
+<p>TODO <code>i2c-driver/exercise/src/main.rs</code> contains working code. Running it without modifying the driver file will yield errors. </p>
+<p><code>i2c-driver/solution/src/imc42670p.rs</code> provides a solution to the task. </p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="i2c-driver-exercise"><a class="header" href="#i2c-driver-exercise">I2C Driver Exercise</a></h1>
+<p>We're not going to write an entire driver, merely the first step: the <code>hello world</code> of driver writing: reading the device ID of the sensor. </p>
+<p>TODO <code>i2c-driver/exercise/src/imc42670p.rs</code> is a gap text of a very basic I²C IMU sensor driver. The task is to complete the file, so that running <code>main.rs</code> will log the device ID of the driver. The this gap text driver is based on the version of the same name that lives in common, but provides a little bit more functionality.</p>
+<h2 id="driver-api"><a class="header" href="#driver-api">Driver API</a></h2>
+<h3 id="instance-of-the-sensor"><a class="header" href="#instance-of-the-sensor">Instance of the Sensor</a></h3>
+<p>To use a peripheral sensor first you must get an instance of the it. The sensor is represented as a struct that contains both its Device Address, and an object representing the I²C bus itself. This is done using traits defined in the <code>embedded-hal</code> crate. The struct is public as it needs to be accessible from outside this crate, but its fields are private. We also implement an instantiating method. Methods can also be public or private. This method needs to be accessible from outside, so it's labelled <code>pub</code>. Note that written this way, the sensor instance takes ownership of the I²C bus.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+pub struct IMC42670P&lt;I2C&gt; {
+    /// The concrete I²C device implementation.
+    i2c: I2C,
+
+    /// Device address
+    address: SlaveAddr,
+}
+
+// ...
+
+impl&lt;I2C, E&gt;IMC42670P&lt;I2C&gt;
+where
+    I2C: i2c::WriteRead&lt;Error = E&gt; + i2c::Write&lt;Error = E&gt;,
+{
+    /// Create a new instance of the IMC42670P.
+    pub fn new(i2c: I2C, address: SlaveAddr) -&gt; Result&lt;Self, E&gt; {
+
+        let imc42670p = IMC42670P { i2c, address };
+
+        Ok(imc42670p)
+    }
+// ...
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="representation-of-registers"><a class="header" href="#representation-of-registers">Representation of Registers</a></h3>
+<p>The sensor's registers are represented as enums. Each variant has the register's address as value. The type <code>Register</code> implements a method that exposes the variant's address.</p>
+<pre><code class="language-Rust">#[derive(Clone, Copy)]
+pub enum Register {
+    WhoAmI = 0x75,
+}
+
+impl Register {
+    fn address(&amp;self) -&gt; u8 {
+        *self as u8
+    }
+}
+
+</code></pre>
+<h3 id="read_register-and-write_register"><a class="header" href="#read_register-and-write_register">read_register() and write_register()</a></h3>
+<p>We define a read and a write method, based on methods provided by the <code>embedded-hal</code> crate. They serve as helpers for more specific methods and as an abstraction that is adapted to a sensor with 8-bit registers. Note how the <code>read_register()</code> method is based on a <code>write_read()</code> method. The reason for this lies in the characteristics of the I²C protocol: We first need to write a command over the I²C bus to specify which register we want to read from. Helper methods can remain private as they don't need to be accessible from outside this crate. </p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl&lt;I2C, E&gt;IMC42670P&lt;I2C&gt;
+where
+    I2C: i2c::WriteRead&lt;Error = E&gt; + i2c::Write&lt;Error = E&gt;,
+{    
+    //...
+    fn write_register(&amp;mut self, register: Register, value: u8) -&gt; Result&lt;(), E&gt; {
+        let byte = value as u8;
+        self.i2c
+            .write(self.address as u8, &amp;[register.address(), byte])
+    }
+
+    fn read_register(&amp;mut self, register: Register) -&gt; Result&lt;u8, E&gt; {
+        let mut data = [0];
+        self.i2c
+            .write_read(self.address as u8, &amp;[register.address()], &amp;mut data)?;
+        Ok(u8::from_le_bytes(data))
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>✅ Implement a public method that reads the <code>WHOAMI</code> register with the address <code>0x0F</code>. 
+✅ Optional: Implement further methods that add features to the driver. Check the <a href="https://3cfeqx1hf82y3xcoull08ihx-wpengine.netdna-ssl.com/wp-content/uploads/2021/07/DS-000451-ICM-42670-P-v1.0.pdf">documentation</a> for the respective registers and their addresses. Some ideas:
+* switching the the gyroscope sensor or the accelerometer on
+* starting measurements
+* reading measurements</p>
+<p>TODO: Add general info about how registers work</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="i2c"><a class="header" href="#i2c">I2C</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="interrupts"><a class="header" href="#interrupts">Interrupts</a></h1>
+<p>An interrupt is a request for the processor to interrupt currently executing code, so that the event can be processed in a timely manner. If the request is accepted, the processor will suspend its current activities, save its state, and execute a function called an interrupt handler to deal with the event. Interrupts are commonly used by hardware devices to indicate electronic or physical state changes that require time-sensitive attention, for example pushing a button. </p>
+<p>The fact that interrupt handlers can be called at any time provides a challenge in embedded Rust: It requires the existence of statically allocated mutable memory that both the interrupt handler and the main code can refer to and it also requires that this memory is always accessible. </p>
+<h2 id="challenges"><a class="header" href="#challenges">Challenges</a></h2>
+<h3 id="flash-memory"><a class="header" href="#flash-memory">Flash Memory</a></h3>
+<p>Flash memory does not fulfill this requirement as it is out of action for example during write operations. Interrupts that occur during this time will go unnoticed. In our example this would result in no reaction when the button is pushed. We solve this by moving the the interrupt handler into RAM.</p>
+<h3 id="statically-mutable-memory"><a class="header" href="#statically-mutable-memory">Statically Mutable Memory</a></h3>
+<p>In Rust such memory can be declared by defining a <code>static mut</code>. But reading and writing to such variables is always unsafe, as without precautions race conditions can be triggered. </p>
+<p>How do we handle this problem?</p>
+<p>In our example, the ESP-IDF framework provides a <code>Queue</code> type which handles the shared-mutable state for us. We simply get a <code>QueueHandle</code> which unique identifies the particular <code>Queue</code> being used. However, the main thread is given this <code>QueueHandle_t</code> at run-time, and so we still need a small amount of shared-mutable state in order to share the <code>QueueHandle_t</code> with the interrupt routine. We use an <code>Option&lt;QueueHandle_t&gt;</code>, which we statically initialize to <code>None</code>, and later replace with <code>Some(queue_handle)</code> when the queue has been created by ESP-IDF.</p>
+<p>In the interrupt routine Rust forces us to handle the case where the <code>static mut</code> is still <code>None</code>. If this happens we can either return early, or we can <code>unwrap()</code> the value, which will exit the program with an error if the value was not previously set to <code>Some(queue_handle)</code>.</p>
+<p>There is still a risk that <code>main()</code> might be in the processing of changing the value of the variable (i.e. changing the <code>QueueHandle_t</code> value) just as the interrupt routine fires, leaving it in an inconsistent or invalid state. We mitigate this by making sure we only set the value once, and we do so before the interrupt is enabled. The compiler cannot check that this is safe, and so we must use the <code>unsafe</code> keyword when we read or write the value.</p>
+<!-- An alternative to the `static mut` variable is to convert the `QueueHandle_t` to an integer, and store it in an `AtomicU32` or similar. These atomic types guarantee they can never be read in an intermediate or invalid state. However, they require special hardware support which is not available on the ESP32-C3. You would also still need to distinguish between a valid `QueueHandle_t` and some value that indicates the queue has not yet been created (perhaps `0xFFFF_FFFF`).
+Yet another option is to use a special data structure which disables interrupts automatically when the value is being access. This guarantees that no code can interrupt you when reading or writing the value. This does however increase interrupt latency and in this case because the `QueueHandle_t` is only written once, this is not necessary. -->
+<p>Read more about this in the <a href="https://docs.rust-embedded.org/book/concurrency/index.html">Embedded Rust Book</a></p>
+<h2 id="unsafe--blocks"><a class="header" href="#unsafe--blocks"><code>unsafe {}</code> blocks:</a></h2>
+<p>This code contains a lot of <code>unsafe {}</code> blocks. As a general rule, <code>unsafe</code> does not mean that the contained code is not memory safe, it means, that Rust can't make safety guarantees in this place and that it is in the responsibility of the programmer to ensure memory safety. For example Calling C Bindings is per se unsafe, as Rust can't make any safety guarantees for the underlaying C Code. </p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="building-the-interrupt-handler"><a class="header" href="#building-the-interrupt-handler">Building the Interrupt Handler</a></h1>
+<p>The goal of this exercise is to handle the interrupt that fires if the <code>BOOT</code> button is pushed. 
+This exercise involves working with C bindings to the ESP-IDF and other unsafe operations, as well as non-typical rust documentation. In a first step we will go line by line to build this interrupt handler. </p>
+<p>You can find a skeleton code for this exercise in <code>advanced/button-interrupt/exercise/src/main.rs.</code>
+You can find the solution for this exercise in <code>advanced/button-interrupt/solution/src/main.rs</code></p>
+<h2 id="tasks-1"><a class="header" href="#tasks-1">Tasks</a></h2>
+<ol>
+<li>Configure the button (GPIO 9) with a c struct <a href="https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/struct.gpio_config_t.html"><code>gpio_config_t</code></a>the following settings:
+<ul>
+<li>input mode</li>
+<li>pull up</li>
+<li>interrupt on positive edge</li>
+</ul>
+</li>
+</ol>
+<p>The struct has the following fields:</p>
+<ul>
+<li>
+<p><code>pin_bit_mask</code>: represents the Pin number, the value 1  shifted by the number of the pin. </p>
+</li>
+<li>
+<p><code>mode</code>: sets the mode of the pin, it can have the following settings:</p>
+<ul>
+<li><code>gpio_mode_t_GPIO_MODE_INPUT</code> </li>
+<li><code>gpio_mode_t_GPIO_MODE_OUTPUT</code></li>
+<li><code>gpio_mode_t_GPIO_MODE_DISABLE</code> // disable gpio</li>
+<li><code>gpio_mode_t_GPIO_MODE_OUTPUT_OD</code> // open drain output</li>
+<li><code>gpio_mode_t_GPIO_MODE_INPUT_OUTPUT</code> // input and output</li>
+<li><code>gpio_mode_t_GPIO_MODE_INPUT_OUTPUT_OD</code> // open drain input and output</li>
+</ul>
+</li>
+<li>
+<p><code>pull_up_en</code>: true.into(), if the GPIO is pulled up,</p>
+</li>
+<li>
+<p><code>pull_down_en</code>: true.into(), if the GPIO is pulled down,</p>
+</li>
+<li>
+<p><code>intr_type</code>: sets the interrupt type, it can have the following settings:</p>
+<ul>
+<li><code>gpio_int_type_t_GPIO_INTR_ANYEDGE</code> // interrupt at any edge</li>
+<li><code>gpio_int_type_t_GPIO_INTR_DISABLE</code> // interrupt disabled</li>
+<li><code>gpio_int_type_t_GPIO_INTR_NEGEDGE</code> // interrupt at negative edge</li>
+<li><code>gpio_int_type_t_GPIO_INTR_POSEDGE</code> // interrupt at positive edge</li>
+</ul>
+</li>
+</ul>
+<p>They are constants with numbers representing the bit that must be set in the corresponding register. </p>
+<ol start="2">
+<li>
+<p>Write the configuration into the register with <a href="https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/fn.gpio_config.html"><code>unsafe extern &quot;C&quot; fn gpio_config</code></a>. This needs to happen in the unsafe block. To make these FFI calls we can use the macro <code>esp!($Cfunktion)</code>.</p>
+</li>
+<li>
+<p>Install a generic GPIO interrupt handler with <a href="https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/fn.gpio_install_isr_service.html"><code>unsafe extern &quot;C&quot; fn gpio_install_isr_service</code></a>. This function takes <code>ESP_INTR_FLAG_IRAM</code> as argument.</p>
+</li>
+<li>
+<p>Create a <code>static mut</code> that holds the queue handle we are going to get from <code>xQueueGenericCreate</code>. This is a number that uniquely identifies one particular queue, as opposed to any of the other queues in our program. The queue storage itself if managed by the Operating System.</p>
+</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>static mut EVENT_QUEUE: Option&lt;QueueHandle_t&gt; = None;
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="5">
+<li>Create the event queue using <a href="https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/fn.xQueueGenericCreate.html"><code>pub unsafe extern &quot;C&quot; fn xQueueGenericCreate</code></a>. This lets us safely pass events from an interrupt routine to our main thread.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>EVENT_QUEUE = Some(xQueueGenericCreate(QUEUE_SIZE, ITEM_SIZE, QUEUE_TYPE_BASE));
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="6">
+<li>Add a function which that will be called whenever there is a GPIO interrupt on our button pin. We put this function in a special block of RAM (<code>iram0</code>), so it will still be available even if the external flash is busy doing something else (like filesystem work). The function needs to get the queue handle from <code>EVENT_QUEUE</code> and call the <code>xQueueGiveFromISR</code> function with a <code>std::ptr::null_mut()</code> - the objects in our queue are of size zero, so we don't actually need a 'thing' to put on the queue. Instead, the act of pushing a 'nothing' is enough to wake up the other end!</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[link_section = &quot;.iram0.text&quot;]
+unsafe extern &quot;C&quot; fn button_interrupt(_: *mut c_void) {
+    xQueueGiveFromISR(EVENT_QUEUE.unwrap(), std::ptr::null_mut());
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>If the interrupt fires, an event is added to the queue. </p>
+<ol start="7">
+<li>Pass the function we just wrote to the generic GPIO interrupt handler we registered earlier, along with the number of the GPIO pin that should cause this function to be executed.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>esp!(gpio_isr_handler_add(
+    GPIO_NUM,
+    Some(button_interrupt),
+    std::ptr::null_mut()
+))?;
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="8">
+<li>Inside a loop, wait until the queue has an item in it. That is, until the <code>button_interrupt</code> function puts something in the queue.</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let res = xQueueReceive(EVENT_QUEUE.unwrap(), ptr::null_mut(), QUEUE_WAIT_TICKS);
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="9">
+<li>Handle the value of <code>res</code>, so that &quot;Button pushed!&quot; is logged, if the button is pushed. </li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="random-led-color-on-pushing-a-button"><a class="header" href="#random-led-color-on-pushing-a-button">Random LED color on pushing a button</a></h1>
+<p>✅ Modify the code so the RGB LED light changes to different random color upon each button press. The LED should not go out or change color if the button is not pressed for some time. </p>
+<p>Continue by adding to your previous solution or the code from <code>advanced/button-interrupt/solution/src/main.rs</code>
+You can find the solution for this exercise in <code>advanced/button-interrupt/solution/src/main_led.rs</code></p>
+<h2 id="solving-help"><a class="header" href="#solving-help">Solving Help</a></h2>
+<ul>
+<li>The necessary imports are already made, if you enter <code>cargo --doc --open</code> you will get helping documentation regarding the LED.</li>
+<li>The LED's part number is WS2812RMT. </li>
+<li>It's a programmable RGB LED. This means there aren't single pins to set for red, green and blue, but that we need to instantiate it to be able to send <code>RGB8</code> type values to it with a method.</li>
+<li>The board has a hardware random number generator. It can be called with <code>esp_random()</code>.</li>
+<li>Calling functions from the <code>esp-idf-sys</code> is unsafe in Rust terms and requires an <code>unsafe()</code> block. You can assume that these functions are safe to use, so no other measures are required. </li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="step-by-step-guide-to-the-solution"><a class="header" href="#step-by-step-guide-to-the-solution">Step by Step Guide to the Solution</a></h1>
+<ol>
+<li>
+<p>Initialize the LED peripheral and switch the LED on with an arbitrary value just to see that it works.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut led = WS2812RMT::new()?;
+
+ let arbitrary_color = RGB8::new(20, 0, 20);
+ led.set_pixel(arbitrary_color).unwrap(); // remove this line after you tried it once
+<span class="boring">}
+</span></code></pre></pre>
+</li>
+<li>
+<p>Light up the LED only when the button is pressed. You can do this for now by exchanging the print statement. </p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>1 =&gt; {
+     led.set_pixel(arbitrary_color)?;
+                 
+     },
+ _ =&gt; {},
+<span class="boring">}
+</span></code></pre></pre>
+</li>
+<li>
+<p>Create random RGB values by calling <code>esp_random()</code>. </p>
+<ul>
+<li>This function is unsafe. </li>
+<li>It yields u32, so it needs to be cast as u8.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+//...
+1 =&gt; {
+    let r = esp_random() as u8;
+    let g = esp_random() as u8;
+    let b = esp_random() as u8;
+
+    let color = RGB8::new(r, g, b);
+    led.set_pixel(color)?;
+                
+    },
+_ =&gt; {},
+<span class="boring">}
+</span></code></pre></pre>
+</li>
+<li>
+<p>Optional: If you intend to reuse this code in another place, it makes sense to put it into its own function. This lets us explore in detail, which parts of the code need to be in <code>unsafe</code> blocks.</p>
+</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>    fn random_light(led: &amp;mut WS2812RMT) {
+
+        let mut color = RGB8::new(0, 0, 0);
+        unsafe {
+            let r = esp_random() as u8;
+            let g = esp_random() as u8;
+            let b = esp_random() as u8;
+
+            color = RGB8::new(r, g, b);
+        }
+    
+        led.set_pixel(color).unwrap();
+    }
+
+    unsafe {
+        // ...
+        match res {
+                1 =&gt; {
+                    // Generates random rgb values
+                    random_light(&amp;mut led);
+                    
+                },
+                _ =&gt; {},
+            };
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="reference-1"><a class="header" href="#reference-1">Reference</a></h1>
+<h2 id="gpio"><a class="header" href="#gpio">GPIO</a></h2>
+<p>GPIO is short for General Purpose Input Output. GPIOs are digital (or sometimes analogue) signal pins that can be used as interfaces to other systems or devices. Each pin can be in various states, but they will have a default state on power-up or after a system reset (usually a harmless one, like being a digital input). We can then write software to change them into the appropriate state for our needs.</p>
+<p>We'll introduce a couple of concepts related to GPIOs:</p>
+<h3 id="pin-configurations"><a class="header" href="#pin-configurations">Pin Configurations</a></h3>
+<p>GPIOs can be configured one of several different ways. The options available can vary depending in the design of the chip, but will usually include: </p>
+<p>Floating: A floating pin is neither connected VCC nor Ground. It just floats around at whatever voltage is applied. Note though, that your circuit should externally pull the pin either low or high, as CMOS silicon devices (such as microcontrollers) can be fail to work correctly if you leave a pin higher than the 'low voltage threshold' or <code>Vtl</code>, but lower than the 'high voltage threshold' or <code>Vth</code> for more than a few microseconds.</p>
+<p>Push-Pull-Output: A pin that is configured as push–pull output can then be set to either drive a high voltage on to the pin (i.e. connect it to VCC), or a low voltage on to the pin (i.e. connect it to Ground). This is useful for LEDs, or buzzers or other devices that use small amounts of power.</p>
+<p>Open-Drain-Output: Open Drain outputs switch between &quot;disconnected&quot; and &quot;connected to ground&quot;. It is expected that some external resistor will weakly pull the line up to VCC. This type of output is designed to allow multiple devices to be connected together - the line is 'low' if any of the devices connected to the line drive it low. If two or more devices drive it low at the same time, no damage occurs (connecting Ground to Ground is safe). If none of them drive it low, the resistor will pull it high by default.</p>
+<p>Floating-Input: A pin where the external voltage applied can be read in software, as either a <code>1</code> (usually if the voltage is above some threshold voltage) or a <code>0</code> (if it isn't). The same warnings apply as per the 'Floating' state.</p>
+<p>Pull-Up-Input: Like a Floating-Input, except an internal 'pull-up' resistor weakly pulls the line up to VCC when nothing external is driving it down to Ground. Useful for reading buttons and other switches, as it saves you from needing an external resistor.</p>
+<h3 id="active-highlow"><a class="header" href="#active-highlow">Active high/low</a></h3>
+<p>A digital signal can be in two states: <code>high</code> and <code>low</code>. This is usually represented by the voltage difference between the signal and ground. It is arbitrary which of these voltage levels represents which logic states: So both <code>high</code> and <code>low</code> can be defined as an active state. </p>
+<p>For example: An active high pin has voltage when the logic level is active. And active low pin has voltage when the logic level is set to inactive. </p>
+<p>In embedded Rust abstractions show the logic level and not the voltage level. So if you have an active low pin connected to an LED, you need to set it to inactive in order for the LED to light up. </p>
+<h3 id="chip-select"><a class="header" href="#chip-select">Chip Select</a></h3>
+<p>Chip Select is a binary signal to another device that can switch that device on or off, either partially or entirely. It is usually a signal line connected to a GPIO, and commonly used to allow multiple devices to be connected to the same SPI bus - each device only listens when its Chip Select line is active. </p>
+<h3 id="bit-banging"><a class="header" href="#bit-banging">Bit Banging</a></h3>
+<p>For protocols such as I2C or SPI we usually use peripherals within the MCU to convert the data we want to transmit into signals. In some cases, for example if the MCU does not support the protocol or if a non-standard form of the protocol is used, you need to write a program that turns the data into signals manually.  This is called bit-banging. </p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>
